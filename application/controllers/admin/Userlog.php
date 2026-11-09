@@ -18,6 +18,9 @@ class Userlog extends Admin_Controller
 
     public function index()
     {
+        if (!$this->rbac->hasPrivilege('user_log', 'can_view')) {
+            access_denied();
+        }
         $this->session->set_userdata('top_menu', 'Reports');
         $this->session->set_userdata('sub_menu', 'reports/log');
         $this->session->set_userdata('subsub_menu', 'reports/log/userlog');
@@ -56,6 +59,9 @@ class Userlog extends Admin_Controller
 
     public function deleteall()
     {
+        if (!$this->rbac->hasPrivilege('user_log', 'can_delete') && !$this->rbac->hasPrivilege('superadmin', 'can_delete')) {
+            access_denied();
+        }
         $this->userlog_model->delete();
         $return = array('status' => 1, 'msg' => $this->lang->line('data_deleted_successfully'));
         echo json_encode($return);
@@ -63,6 +69,9 @@ class Userlog extends Admin_Controller
 
     public function userlogreports()
     {
+        if (!$this->rbac->hasPrivilege('user_log', 'can_view')) {
+            access_denied();
+        }
         $start_date             = '';
         $end_date               = '';
         $search['search_type']  = $this->input->post('search_type');

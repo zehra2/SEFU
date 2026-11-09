@@ -59,7 +59,7 @@
 | **DHA-012** | **Session Timeout Management** | `config.php` | CodeIgniter session expiration (`sess_expiration`) enforcing automatic idle logout. | 🟢 **COMPLETED** |
 | **DHA-013** | **Database Backup & Recovery** | `admin/admin/backup` | Built-in MySQL database dump utility and written backup/recovery schedule. | 🟢 **COMPLETED** |
 | **DHA-014** | **Encryption in Transit (TLS/HTTPS)** | Web Server / SSL | SSL/TLS certificate installed on domain (`care.rofam.africa`); HTTP to HTTPS 301 redirection. | 🟡 **IN PROGRESS** |
-| **DHA-015** | **Clinical & Financial Audit Trails** | `audit` / Tables | Export of record history showing user ID (`generated_by`), patient ID, and timestamp (`created_at`) on all tables. | 🟡 **IN PROGRESS** |
+| **DHA-015** | **Clinical & Financial Audit Trails** | `admin/audit` / `admin/userlog` | Complete user activity logging (Insert, Update, Delete) + login history; staff ID capture, RBAC permission toggles per role (e.g. Human Resources), log tampering protection. | 🟢 **COMPLETED** |
 | **DHA-016** | **Multi-Factor Authentication (MFA)** | Login System | 2FA verification for admin and physician logins (via Email OTP or Google Authenticator library). | 🟡 **IN PROGRESS** |
 | **DHA-017** | **Penetration Testing & VA Report** | Security Lead | Official Vulnerability Assessment (VA) and Penetration Testing (PT) report conducted by accredited tester. | 🔴 **PENDING** |
 

@@ -8,9 +8,11 @@
                 <div class="box-header ptbnull"></div>
                     <div class="box-header with-border">
                         <h3 class="box-title titlefix"><?php echo $this->lang->line('user_log'); ?></h3>
+                        <?php if ($this->rbac->hasPrivilege('user_log', 'can_delete') || $this->rbac->hasPrivilege('superadmin', 'can_delete')) { ?>
                         <div class="box-tools pull-right">    
                             <button class="btn btn-primary btn-sm checkbox-toggle delete_all"><i class="fa fa-trash"></i> <?php echo $this->lang->line('delete_all'); ?></button>
-                        </div>    
+                        </div>
+                        <?php } ?>    
                     </div>
                     <form id="form1" action="" method="post">
                         <div class="box-body">

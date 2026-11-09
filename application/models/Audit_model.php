@@ -15,8 +15,8 @@ class Audit_model extends MY_Model
 
     public function get($limit = null, $offset = null)
     {
-        $this->db->select('logs.*, CONCAT_WS("",staff.name,staff.surname," (",staff.employee_id,")") as name')->from('logs');
-        $this->db->join('staff', 'staff.id = logs.user_id');
+        $this->db->select("logs.*, IF(logs.user_id = 0 OR staff.id IS NULL, 'System / Administrator', CONCAT_WS(' ', staff.name, staff.surname, CONCAT('(', staff.employee_id, ')'))) as name")->from('logs');
+        $this->db->join('staff', 'staff.id = logs.user_id', 'left');
         $this->db->order_by('logs.id', 'asc');
         $this->db->limit($limit, $offset);
         $query = $this->db->get();
@@ -27,8 +27,8 @@ class Audit_model extends MY_Model
     {
         $query="  date_format(logs.created_at ,'%Y-%m-%d') >='". $start_date."'and date_format(logs.created_at ,'%Y-%m-%d') <= '".$end_date."'";
         $this->datatables
-            ->select('logs.*, CONCAT_WS("",staff.name,staff.surname," (",staff.employee_id,")") as name')
-            ->join('staff', 'staff.id = logs.user_id')           
+            ->select("logs.*, IF(logs.user_id = 0 OR staff.id IS NULL, 'System / Administrator', CONCAT_WS(' ', staff.name, staff.surname, CONCAT('(', staff.employee_id, ')'))) as name")
+            ->join('staff', 'staff.id = logs.user_id', 'left')           
             ->where($query)
             ->searchable('message, name, ip_address, action, platform, agent')
             ->orderable('message, name, ip_address, action, platform, agent')            

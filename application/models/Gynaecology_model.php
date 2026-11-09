@@ -76,6 +76,9 @@ class Gynaecology_model extends MY_Model
             $this->db->where('id', $insert_id)->update('gynaecology', array('bill_no' => $bill_no));
         }
 
+        $message = INSERT_RECORD_CONSTANT . " On Gynaecology id " . $insert_id;
+        $this->log($message, $insert_id, 'Insert');
+
         return $insert_id;
     }
 
@@ -83,6 +86,10 @@ class Gynaecology_model extends MY_Model
     {
         $this->db->where('id', $id);
         $this->db->update('gynaecology', $data);
+
+        $message = UPDATE_RECORD_CONSTANT . " On Gynaecology id " . $id;
+        $this->log($message, $id, 'Update');
+
         return true;
     }
 
@@ -94,6 +101,10 @@ class Gynaecology_model extends MY_Model
         // Delete associated instructions
         $this->db->where('gynaecology_id', $id);
         $this->db->delete('gynaecology_instructions');
+
+        $message = DELETE_RECORD_CONSTANT . " On Gynaecology id " . $id;
+        $this->log($message, $id, 'Delete');
+
         return true;
     }
 

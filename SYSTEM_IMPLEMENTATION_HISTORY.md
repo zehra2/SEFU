@@ -163,16 +163,47 @@ In `application/views/admin/roles/allotmodule.php`, checkboxes are rendered base
 | **10** | **Physiotherapist** | *system* | Assigned to physical therapy specialists |
 | **11** | **Pediatrician** | *system* | Assigned to child health / pediatric specialists |
 | **12** | **Gynaecologist** | *system* | Assigned to women's health / obstetrics specialists |
+| **13** | **Human Resource** | *system* | Assigned to HR personnel; has staff, attendance, and log auditing privileges |
+
+---
+
+## 📜 7. Audit Trails & Activity Logging System (Kenya DHA-015 Compliance)
+
+### Overview
+In compliance with Kenya Digital Health Agency (DHA) certification requirements for **Information Security & Audit Trails**, the HMIS maintains comprehensive, tamper-evident logs of all user actions (database inserts, updates, deletes) and system authentication events.
+
+### Core Enhancements & Bug Fixes
+1. **Resolved Staff ID Wiping Bug (`application/core/MY_Model.php`):**
+   - The legacy `log()` function previously cleared the active user ID (`if ($user_id) { $user_id = ""; }`), causing every audit record in the `logs` table to be saved with `user_id = 0`.
+   - Corrected to dynamically capture `$this->customlib->getStaffID()` so every record modification is attributed to the exact staff member who executed it.
+2. **Robust Name Resolution in `Audit_model.php`:**
+   - Switched from an `INNER JOIN` on `staff` to a `LEFT JOIN`.
+   - Added automated fallback: `IF(logs.user_id = 0 OR staff.id IS NULL, 'System / Administrator', CONCAT_WS(' ', staff.name, staff.surname, CONCAT('(', staff.employee_id, ')'))) AS name`, ensuring anonymous/system operations and historical records remain fully visible in the Audit Trail report.
+3. **Role-Based Access Control (RBAC) Protection:**
+   - Enforced `$this->rbac->hasPrivilege('audit_trail_report', 'can_view')` on `Audit::index` and `Audit::getDatatable`.
+   - Enforced `$this->rbac->hasPrivilege('user_log', 'can_view')` on `Userlog::index` and `Userlog::userlogreports`.
+   - Strictly protected `deleteall()` actions in both `Audit.php` and `Userlog.php`, requiring explicit `can_delete` privileges.
+   - Conditionally hid the "Delete All" button in views `admin/audit/index.php` and `admin/userlog/userlogList.php` so non-delete roles cannot view or trigger deletion.
+4. **Log Delegation to Custom Roles (e.g., "Human Resource"):**
+   - Seeded **Role ID 13 (`Human Resource`)**, Department ID 4 (`Human Resource`), and Staff Designation ID 4 (`HR Manager`).
+   - Configured default permissions giving Role 13 view access to `Audit Trail Report` (`audit_trail_report`, id 370), `User Log` (`user_log`, id 187), and `Email / SMS Log` (`email_sms_log`, id 189).
+   - Any administrator can delegate or revoke log access for ANY role at `admin/roles/permission/{role_id}` under the "Reports" permission tab.
+5. **Full Audit Logging for Clinical Specialty Modules:**
+   - Added `$this->log()` hooks to `Physiotherapy_model.php`, `Pediatric_model.php`, and `Gynaecology_model.php` for `add`, `update`, and `delete` operations, guaranteeing complete traceability across all hospital clinical departments.
 
 ---
 
 ## 🌐 Quick Access URLs (Local Environment)
 
 - **Admin Login:** `http://localhost/sfu/site/login`
+- **Audit Trail Report:** `http://localhost/sfu/admin/audit`
+- **User Activity Log:** `http://localhost/sfu/admin/userlog`
+- **Reports & Logs Hub:** `http://localhost/sfu/admin/report/log`
+- **Roles & Permissions:** `http://localhost/sfu/admin/roles`
+- **HR Role Permissions:** `http://localhost/sfu/admin/roles/permission/13`
 - **Physiotherapy Module:** `http://localhost/sfu/admin/physiotherapy`
 - **Pediatric Module:** `http://localhost/sfu/admin/pediatric`
 - **Gynaecology Module:** `http://localhost/sfu/admin/gynaecology`
-- **Roles & Permissions:** `http://localhost/sfu/admin/roles`
 - **Staff Directory:** `http://localhost/sfu/admin/staff`
 - **Change Password (Admin):** `http://localhost/sfu/admin/admin/changepass`
 - **Patient Login:** `http://localhost/sfu/site/userlogin`

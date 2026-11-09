@@ -495,6 +495,7 @@
                         ($this->rbac->hasPrivilege('payroll_report', 'can_view')) ||
                         ($this->rbac->hasPrivilege('staff_attendance_report', 'can_view')) ||
                         ($this->rbac->hasPrivilege('user_log', 'can_view')) ||
+                        ($this->rbac->hasPrivilege('audit_trail_report', 'can_view')) ||
                         ($this->rbac->hasPrivilege('patient_login_credential', 'can_view')) ||
                         ($this->rbac->hasPrivilege('email_sms_log', 'can_view')) ||
                         ($this->rbac->hasPrivilege('tpa_report', 'can_view')) ||

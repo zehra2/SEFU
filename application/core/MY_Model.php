@@ -13,9 +13,8 @@ class MY_Model extends CI_Model
     public function log($message = null, $record_id = null, $action = null)
     {
         $user_id = $this->customlib->getStaffID();
-  
-        if ($user_id) {
-            $user_id = "";
+        if (empty($user_id)) {
+            $user_id = 0;
         }
 
         $ip = $this->input->ip_address();

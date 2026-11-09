@@ -26,7 +26,9 @@ class Audit extends Admin_Controller
 
     public function index($offset = 0)
     {
-
+        if (!$this->rbac->hasPrivilege('audit_trail_report', 'can_view')) {
+            access_denied();
+        }
         $this->session->set_userdata('top_menu', 'Reports');
         $this->session->set_userdata('sub_menu', 'reports/log');
         $this->session->set_userdata('subsub_menu', 'reports/log/audit');
@@ -40,6 +42,9 @@ class Audit extends Admin_Controller
 
     public function getDatatable()
     {
+        if (!$this->rbac->hasPrivilege('audit_trail_report', 'can_view')) {
+            access_denied();
+        }
 
         $start_date             = '';
         $end_date               = '';
@@ -97,6 +102,9 @@ class Audit extends Admin_Controller
 
     public function deleteall()
     {
+        if (!$this->rbac->hasPrivilege('audit_trail_report', 'can_delete') && !$this->rbac->hasPrivilege('superadmin', 'can_delete')) {
+            access_denied();
+        }
         $this->audit_model->delete();
         $return = array('status' => 1, 'msg' => $this->lang->line('data_deleted_successfully'));
         echo json_encode($return);
