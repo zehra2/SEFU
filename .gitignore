@@ -7,4 +7,12 @@ backup/temp_uploaded/*
 !backup/temp_uploaded/index.html
 backup/_tmp/*
 !backup/_tmp/index.html
+application/cache/*
+!application/cache/index.html
+!application/cache/.htaccess
+application/logs/*
+!application/logs/index.html
+application/third_party/omnipay/vendor/
+application/third_party/firebase_notification_key.json
+
 
