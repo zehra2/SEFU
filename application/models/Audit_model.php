@@ -15,7 +15,7 @@ class Audit_model extends MY_Model
 
     public function get($limit = null, $offset = null)
     {
-        $this->db->select("logs.*, IF(logs.user_id = 0 OR staff.id IS NULL, 'System / Administrator', CONCAT_WS(' ', staff.name, staff.surname, CONCAT('(', staff.employee_id, ')'))) as name")->from('logs');
+        $this->db->select("logs.*, COALESCE(NULLIF(logs.user_name, ''), IF(logs.user_id = 0 OR staff.id IS NULL, 'System / Administrator', CONCAT_WS(' ', staff.name, staff.surname, CONCAT('(', staff.employee_id, ')')))) as name")->from('logs');
         $this->db->join('staff', 'staff.id = logs.user_id', 'left');
         $this->db->order_by('logs.id', 'asc');
         $this->db->limit($limit, $offset);
@@ -25,13 +25,13 @@ class Audit_model extends MY_Model
 
     public function getAllRecord($start_date = null, $end_date = null)
     {
-        $query="  date_format(logs.created_at ,'%Y-%m-%d') >='". $start_date."'and date_format(logs.created_at ,'%Y-%m-%d') <= '".$end_date."'";
+        $query = "date_format(logs.created_at, '%Y-%m-%d') >= '" . $start_date . "' AND date_format(logs.created_at, '%Y-%m-%d') <= '" . $end_date . "'";
         $this->datatables
-            ->select("logs.*, IF(logs.user_id = 0 OR staff.id IS NULL, 'System / Administrator', CONCAT_WS(' ', staff.name, staff.surname, CONCAT('(', staff.employee_id, ')'))) as name")
+            ->select("logs.*, COALESCE(NULLIF(logs.user_name, ''), IF(logs.user_id = 0 OR staff.id IS NULL, 'System / Administrator', CONCAT_WS(' ', staff.name, staff.surname, CONCAT('(', staff.employee_id, ')')))) as name")
             ->join('staff', 'staff.id = logs.user_id', 'left')           
             ->where($query)
-            ->searchable('message, name, ip_address, action, platform, agent')
-            ->orderable('message, name, ip_address, action, platform, agent')            
+            ->searchable('logs.message, logs.user_name, logs.user_role, logs.ip_address, logs.action, logs.platform, logs.agent')
+            ->orderable('logs.message, logs.user_name, logs.ip_address, logs.action, logs.platform, logs.agent')            
             ->sort('logs.id', 'desc')
             ->from('logs');
             

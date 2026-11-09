@@ -173,12 +173,16 @@ In `application/views/admin/roles/allotmodule.php`, checkboxes are rendered base
 In compliance with Kenya Digital Health Agency (DHA) certification requirements for **Information Security & Audit Trails**, the HMIS maintains comprehensive, tamper-evident logs of all user actions (database inserts, updates, deletes) and system authentication events.
 
 ### Core Enhancements & Bug Fixes
-1. **Resolved Staff ID Wiping Bug (`application/core/MY_Model.php`):**
-   - The legacy `log()` function previously cleared the active user ID (`if ($user_id) { $user_id = ""; }`), causing every audit record in the `logs` table to be saved with `user_id = 0`.
-   - Corrected to dynamically capture `$this->customlib->getStaffID()` so every record modification is attributed to the exact staff member who executed it.
+1. **Multi-Role & Multi-Actor Tracking Architecture (`application/core/MY_Model.php`):**
+   - Added `user_type` (`staff`, `patient`, `system`), `user_role` (`Doctor`, `Super Admin`, `Human Resource`, `Nurse`, `Patient`, etc.), and `user_name` directly to the `logs` table schema.
+   - Automatically resolves who executed the action regardless of role:
+     - **Staff (All Roles):** Identifies staff ID, active role (Doctor, Receptionist, HR, Accountant, Physiotherapist, Pediatrician, Gynaecologist, Admin, etc.), and Full Name: `Staff Name [Role Name]`.
+     - **Patients (Portal Users):** Identifies Patient ID and Full Name: `Patient Name (Patient #ID)`.
+     - **System / Automated:** Identifies background/guest actions as `System / Automated [System]`.
 2. **Robust Name Resolution in `Audit_model.php`:**
    - Switched from an `INNER JOIN` on `staff` to a `LEFT JOIN`.
-   - Added automated fallback: `IF(logs.user_id = 0 OR staff.id IS NULL, 'System / Administrator', CONCAT_WS(' ', staff.name, staff.surname, CONCAT('(', staff.employee_id, ')'))) AS name`, ensuring anonymous/system operations and historical records remain fully visible in the Audit Trail report.
+   - Added automated fallback: `COALESCE(NULLIF(logs.user_name, ''), IF(logs.user_id = 0 OR staff.id IS NULL, 'System / Administrator', CONCAT_WS(' ', staff.name, staff.surname, CONCAT('(', staff.employee_id, ')')))) AS name`.
+   - Enabled searching across `logs.message, logs.user_name, logs.user_role, logs.ip_address, logs.action, logs.platform, logs.agent` so admins can filter the audit trail by typing any role name (e.g. "Doctor", "Patient", "Human Resource").
 3. **Role-Based Access Control (RBAC) Protection:**
    - Enforced `$this->rbac->hasPrivilege('audit_trail_report', 'can_view')` on `Audit::index` and `Audit::getDatatable`.
    - Enforced `$this->rbac->hasPrivilege('user_log', 'can_view')` on `Userlog::index` and `Userlog::userlogreports`.
