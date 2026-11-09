@@ -14,5 +14,7 @@ application/logs/*
 !application/logs/index.html
 application/third_party/omnipay/vendor/
 application/third_party/firebase_notification_key.json
+backend/captcha_images/*
+!backend/captcha_images/index.html
 
 

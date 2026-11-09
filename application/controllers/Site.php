@@ -120,15 +120,40 @@ class Site extends Public_Controller
                             ],
                     );
 
-                    $this->session->set_userdata('hospitaladmin', $session_data);
-                    $role      = $this->customlib->getStaffRole();
-                    $role_name = json_decode($role)->name;
-                    $this->customlib->setUserLog($this->input->post('username'), $role_name);
+                    $mfa_enabled = isset($setting_result[0]['mfa_enabled']) ? (int)$setting_result[0]['mfa_enabled'] : 1;
 
-                    if (isset($_SESSION['redirect_to'])) {
-                        redirect($_SESSION['redirect_to']);
+                    if ($mfa_enabled && !empty($result->email)) {
+                        // Multi-Factor Authentication via Email OTP
+                        $this->load->model('mfa_model');
+                        $otp_code = $this->mfa_model->generate_otp($result->id, $result->email);
+
+                        $mfa_pending = array(
+                            'staff_id'       => $result->id,
+                            'email'          => $result->email,
+                            'staff_name'     => $result->name . ' ' . $result->surname,
+                            'username'       => $this->input->post('username'),
+                            'session_data'   => $session_data,
+                            'redirect_to'    => isset($_SESSION['redirect_to']) ? $_SESSION['redirect_to'] : 'admin/admin/dashboard',
+                            'generated_time' => time(),
+                        );
+                        $this->session->set_userdata('mfa_pending', $mfa_pending);
+
+                        // Dispatch verification email
+                        $this->mfa_model->send_otp_email($result->email, $result->name . ' ' . $result->surname, $otp_code);
+
+                        redirect('site/verify_2fa');
                     } else {
-                        redirect('admin/admin/dashboard');
+                        // Standard login without MFA
+                        $this->session->set_userdata('hospitaladmin', $session_data);
+                        $role      = $this->customlib->getStaffRole();
+                        $role_name = json_decode($role)->name;
+                        $this->customlib->setUserLog($this->input->post('username'), $role_name);
+
+                        if (isset($_SESSION['redirect_to'])) {
+                            redirect($_SESSION['redirect_to']);
+                        } else {
+                            redirect('admin/admin/dashboard');
+                        }
                     }
                 } else {
                     $data['error_message'] = $this->lang->line('your_account_is_disabled_please_contact_to_administrator');
@@ -139,6 +164,116 @@ class Site extends Public_Controller
                 $this->load->view('admin/login', $data);
             }
         }
+    }
+
+    public function verify_2fa()
+    {
+        $mfa_pending = $this->session->userdata('mfa_pending');
+        if (empty($mfa_pending)) {
+            redirect('site/login');
+        }
+
+        $this->load->model('mfa_model');
+        $setting_result = $this->setting_model->get();
+
+        $data = array(
+            'email'          => $mfa_pending['email'],
+            'staff_name'     => $mfa_pending['staff_name'],
+            'masked_email'   => $this->mask_email($mfa_pending['email']),
+            'sch_setting'    => $setting_result[0],
+            'error_message'  => '',
+            'success_message'=> $this->session->flashdata('success_message') ?: '',
+        );
+
+        $is_localhost = in_array($_SERVER['REMOTE_ADDR'], array('127.0.0.1', '::1', 'localhost'));
+        if ($is_localhost) {
+            $latest = $this->mfa_model->get_latest_otp($mfa_pending['staff_id']);
+            if ($latest) {
+                $data['dev_otp_hint'] = $latest['otp_code'];
+            }
+        }
+
+        if ($this->input->server('REQUEST_METHOD') === 'POST') {
+            $this->form_validation->set_rules('otp_code', 'Verification Code', 'trim|required|numeric|exact_length[6]|xss_clean');
+
+            if ($this->form_validation->run() === false) {
+                $data['error_message'] = form_error('otp_code');
+                $this->load->view('admin/verify_2fa', $data);
+                return;
+            }
+
+            $submitted_otp = $this->input->post('otp_code');
+            $verification  = $this->mfa_model->verify_otp($mfa_pending['staff_id'], $submitted_otp);
+
+            if ($verification['status']) {
+                $session_data = $mfa_pending['session_data'];
+                $redirect_to  = $mfa_pending['redirect_to'];
+                $username     = $mfa_pending['username'];
+
+                $this->session->set_userdata('hospitaladmin', $session_data);
+                $this->session->unset_userdata('mfa_pending');
+
+                $role      = $this->customlib->getStaffRole();
+                $role_name = json_decode($role)->name;
+                $this->customlib->setUserLog($username, $role_name);
+
+                redirect($redirect_to);
+            } else {
+                $data['error_message'] = $verification['message'];
+                $this->load->view('admin/verify_2fa', $data);
+                return;
+            }
+        }
+
+        $this->load->view('admin/verify_2fa', $data);
+    }
+
+    public function resend_2fa()
+    {
+        $mfa_pending = $this->session->userdata('mfa_pending');
+        if (empty($mfa_pending)) {
+            redirect('site/login');
+        }
+
+        $elapsed = time() - $mfa_pending['generated_time'];
+        if ($elapsed < 30) {
+            $wait = 30 - $elapsed;
+            $this->session->set_flashdata('error_message', "Please wait {$wait} seconds before requesting a new code.");
+            redirect('site/verify_2fa');
+        }
+
+        $this->load->model('mfa_model');
+        $otp_code = $this->mfa_model->generate_otp($mfa_pending['staff_id'], $mfa_pending['email']);
+        $this->mfa_model->send_otp_email($mfa_pending['email'], $mfa_pending['staff_name'], $otp_code);
+
+        $mfa_pending['generated_time'] = time();
+        $this->session->set_userdata('mfa_pending', $mfa_pending);
+
+        $this->session->set_flashdata('success_message', 'A fresh verification code has been sent to your email.');
+        redirect('site/verify_2fa');
+    }
+
+    public function cancel_2fa()
+    {
+        $this->session->unset_userdata('mfa_pending');
+        redirect('site/login');
+    }
+
+    private function mask_email($email)
+    {
+        if (empty($email) || strpos($email, '@') === false) {
+            return '***';
+        }
+        $parts = explode('@', $email);
+        $name = $parts[0];
+        $domain = $parts[1];
+        $len = strlen($name);
+        if ($len <= 2) {
+            $masked_name = substr($name, 0, 1) . '*';
+        } else {
+            $masked_name = substr($name, 0, 1) . str_repeat('*', $len - 2) . substr($name, -1);
+        }
+        return $masked_name . '@' . $domain;
     }
 
     public function logout()

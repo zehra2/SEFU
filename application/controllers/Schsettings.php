@@ -252,6 +252,7 @@ class Schsettings extends Admin_Controller
                 'mobile_api_url'           => $this->input->post('mobile_api_url'),
                 'patient_panel'            => $this->input->post('patient_panel'),
                 'scan_code_type'           => $this->input->post('scan_code_type'),
+                'mfa_enabled'              => $this->input->post('mfa_enabled') !== null ? (int)$this->input->post('mfa_enabled') : 1,
 
             );
             $this->setting_model->add($data);
@@ -317,6 +318,7 @@ class Schsettings extends Admin_Controller
                 'app_primary_color_code'   => $this->input->post('sch_app_primary_color_code'),
                 'app_secondary_color_code' => $this->input->post('sch_app_secondary_color_code'),
                 'mobile_api_url'           => $this->input->post('sch_mobile_api_url'),
+                'mfa_enabled'              => $this->input->post('mfa_enabled') !== null ? (int)$this->input->post('mfa_enabled') : 1,
             );
             $this->setting_model->add($data);
             $this->load->helper('lang');

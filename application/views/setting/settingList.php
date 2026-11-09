@@ -384,6 +384,22 @@ $genderList = $this->customlib->getGender();
                                     </div>                                    
                                 </div>
                                 <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label class="col-sm-6">Two-Factor Auth (MFA / Email OTP)</label>
+                                            <div class="col-sm-6">
+                                                <label class="radio-inline">
+                                                    <input type="radio" name="mfa_enabled" value="0" <?php if(isset($settinglist->mfa_enabled) && $settinglist->mfa_enabled == 0){ echo 'checked' ; } ?> > <?php echo $this->lang->line('disabled'); ?>
+                                                </label>
+                                                <label class="radio-inline">
+                                                    <input type="radio" name="mfa_enabled" value="1" <?php if(!isset($settinglist->mfa_enabled) || $settinglist->mfa_enabled == 1){ echo 'checked' ; } ?>>
+                                                    <?php echo $this->lang->line('enabled'); ?> (DHA Required)
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
                                     <div class="col-md-12">
                                         <div class="settinghr"></div>
                                         <h4 class="session-head"><?php echo $this->lang->line('current_theme'); ?></h4>
@@ -592,6 +608,7 @@ $genderList = $this->customlib->getGender();
                 $("input[name=sch_is_rtl][value=" + result.is_rtl + "]").attr('checked', 'checked');
                 $("input[name=doctor_restriction_mode][value=" + result.doctor_restriction + "]").attr('checked', 'checked');
                 $("input[name=superadmin_restriction_mode][value=" + result.superadmin_restriction + "]").attr('checked', 'checked');
+                $("input[name=mfa_enabled][value=" + (result.mfa_enabled !== undefined ? result.mfa_enabled : 1) + "]").attr('checked', 'checked');
                 $("input[name=theme][value='" + result.theme + "']").attr('checked', 'checked');
                 $('select[name="sch_session_id"] option[value="' + result.session_id + '"]').attr("selected", "selected");
                 $('select[name="sch_start_month"] option[value="' + result.start_month + '"]').attr("selected", "selected");

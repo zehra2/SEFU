@@ -228,3 +228,4 @@ Before releasing the restored SEFU HMIS back to clinical users, the Lead Enginee
 **Approved by:**  
 *Chief Technology Officer (CTO) & Lead Security Architect*  
 *SEFU Health Systems — Compliance Lead for Digital Health Agency (DHA) Kenya Certification*
+

@@ -1,4 +1,4 @@
-﻿# ==============================================================================
+# ==============================================================================
 # SEFU HMIS — Automated Disaster Recovery Backup & Integrity Verification Script
 # Kenya Digital Health Agency (DHA) Certification Compliance Proof
 # ==============================================================================
@@ -86,3 +86,4 @@ Write-Host " DISASTER RECOVERY DRILL & BACKUP COMPLETED SUCCESSFULLY" -Foregroun
 Write-Host " RPO Verification: PASS | RTO Verification: PASS" -ForegroundColor Green
 Write-Host " Log recorded in: $LogFile" -ForegroundColor Cyan
 Write-Host "================================================================" -ForegroundColor Cyan
+

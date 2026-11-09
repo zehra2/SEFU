@@ -60,7 +60,7 @@
 | **DHA-013** | **Backup & Disaster Recovery Plan (DRP)** | `admin/admin/backup` & `scripts/` | Comprehensive DRP document (`SEFU_HMIS_Disaster_Recovery_Plan_DRP.md`), RPO <= 1h, RTO <= 2h, automated cron backups, SHA-256 verification drill tool. | 🟢 **COMPLETED** |
 | **DHA-014** | **Encryption in Transit (TLS/HTTPS)** | Web Server / SSL | SSL/TLS certificate installed on domain (`care.rofam.africa`); HTTP to HTTPS 301 redirection. | 🟡 **IN PROGRESS** |
 | **DHA-015** | **Clinical & Financial Audit Trails** | `admin/audit` / `admin/userlog` | Complete user activity logging (Insert, Update, Delete) + login history; staff ID capture, RBAC permission toggles per role (e.g. Human Resources), log tampering protection. | 🟢 **COMPLETED** |
-| **DHA-016** | **Multi-Factor Authentication (MFA)** | Login System | 2FA verification for admin and physician logins (via Email OTP or Google Authenticator library). | 🟡 **IN PROGRESS** |
+| **DHA-016** | **Multi-Factor Authentication (MFA)** | `site/verify_2fa` & `Mfa_model` | 2FA Email OTP enforcement for Staff, Admins, and Physicians; 6-digit cryptographic token, 10-minute expiry, brute-force lockout, single-use database validation, audit trail integration. | 🟢 **COMPLETED** |
 | **DHA-017** | **Penetration Testing & VA Report** | Security Lead | Official Vulnerability Assessment (VA) and Penetration Testing (PT) report conducted by accredited tester. | 🔴 **PENDING** |
 
 ---

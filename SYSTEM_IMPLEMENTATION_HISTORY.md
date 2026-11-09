@@ -220,9 +220,37 @@ In accordance with Kenya Digital Health Agency (DHA) certification requirements 
 
 ---
 
+## 🔐 9. Multi-Factor Authentication (MFA / 2FA via Email OTP) Architecture (Kenya DHA-016)
+
+### Overview
+To satisfy Kenya Digital Health Agency (DHA) certification requirements for **Information Security & Multi-Factor Authentication (MFA)**, SEFU HMIS enforces a secondary authentication factor for Staff, Admins, and Physicians before granting access to patient clinical records and hospital operations.
+
+### Core Security & Technical Highlights
+1. **Dedicated Database Table (`staff_mfa_otps`):**
+   - Stores `staff_id`, cryptographically generated 6-digit `otp_code`, destination `email`, `expires_at`, single-use status `is_used` (`0=active`, `1=used`, `2=superseded`, `3=expired`, `4=locked`), `attempts` counter, `ip_address`, and `created_at`.
+2. **Two-Stage Authentication Flow:**
+   - **Stage 1 (Primary):** Staff member submits email and password at `/site/login`. Credentials verified via `password_verify()` against Bcrypt hashes.
+   - **Stage 2 (MFA Challenge):** System generates a 6-digit numeric OTP, dispatches a branded HTML email to the staff member's registered email address, and redirects to `/site/verify_2fa`. Session data is temporarily held in `mfa_pending`.
+   - **Stage 3 (Verification & Handshake):** Once the correct OTP is entered, `is_used` is set to `1` (single-use guarantee), full session (`hospitaladmin`) is established, authentication history is logged in `userlog`, and the user is redirected to the dashboard.
+3. **Brute-Force & Replay Protection:**
+   - **Expiry:** Strict 10-minute validity window.
+   - **Lockout:** Max 5 failed attempts per OTP code before the token is locked.
+   - **Cool-off Period:** Resend button enforces a 30-second throttle to prevent email flooding.
+   - **Superseding:** Generating a new OTP immediately invalidates any previously active codes.
+4. **Audit Trail Integration:**
+   - Every OTP generation and successful verification is recorded in the `logs` table via `$this->log()`.
+5. **Configurable Enforcement in System Settings:**
+   - Super Admin can toggle MFA enforcement on/off in **General Settings** (`admin/schsettings`) via the `mfa_enabled` flag in `sch_settings`.
+6. **Localhost / Sandbox Testing:**
+   - When running on `localhost` or during offline DHA evaluation drills, the verification page provides a discrete helper badge displaying the generated OTP, allowing testing without requiring an outbound SMTP relay.
+
+---
+
 ## 🌐 Quick Access URLs (Local Environment)
 
 - **Admin Login:** `http://localhost/sfu/site/login`
+- **MFA Verification Portal:** `http://localhost/sfu/site/verify_2fa`
+- **General Settings (MFA Toggle):** `http://localhost/sfu/schsettings`
 - **Database Backup Utility:** `http://localhost/sfu/admin/admin/backup`
 - **Audit Trail Report:** `http://localhost/sfu/admin/audit`
 - **User Activity Log:** `http://localhost/sfu/admin/userlog`
