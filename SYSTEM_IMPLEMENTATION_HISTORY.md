@@ -197,9 +197,33 @@ In compliance with Kenya Digital Health Agency (DHA) certification requirements 
 
 ---
 
+## 🛡️ 8. Disaster Recovery Plan (DRP) & Business Continuity (Kenya DHA-013)
+
+### Overview
+In accordance with Kenya Digital Health Agency (DHA) certification requirements for **Information Security & Disaster Recovery**, a comprehensive enterprise **Disaster Recovery Plan (DRP)** has been formulated and integrated into the project.
+
+### Core Architecture & Parameters
+- **Formal DRP Specification:** Created [`SEFU_HMIS_Disaster_Recovery_Plan_DRP.md`](file:///d:/downloads/Smart%20Hospital%20v5.0%20Nulled/Smart%20Hospital%20v5.0%20Nulled/sfu/documentation/SEFU_HMIS_Disaster_Recovery_Plan_DRP.md) (in `documentation/` and root directory) defining scope, emergency contacts, severity matrix, and step-by-step technical restoration runbooks.
+- **Recovery Point Objective (RPO):** **≤ 1 Hour** (Supported by hourly automated snapshots / daily full database dumps).
+- **Recovery Time Objective (RTO):** **≤ 2 Hours** (Rapid re-deployment and secondary standby failover).
+- **Maximum Tolerable Downtime (MTD):** **≤ 4 Hours** (Manual clinical paper triage protocol activated at T+30m).
+- **3-2-1 Backup Strategy:** 3 copies of data (production, local hot archive, offsite cloud mirror), 2 media types (SSD, S3 Cloud Storage), 1 offsite geographic location.
+- **Automated Verification Drill Tool:** Created [`scripts/drp_backup_verify.ps1`](file:///d:/downloads/Smart%20Hospital%20v5.0%20Nulled/Smart%20Hospital%20v5.0%20Nulled/sfu/scripts/drp_backup_verify.ps1) and `.bat` wrapper. When run, it:
+  1. Generates an automated database dump using `mysqldump` with `--single-transaction`, `--quick`, `--routines`, `--triggers`.
+  2. Computes an immutable **SHA-256 cryptographic checksum** for audit validation.
+  3. Validates SQL completeness via the MySQL EOF marker.
+  4. Scans `/uploads/` to confirm preservation of diagnostic scans, patient photos, and lab slips.
+  5. Records the drill audit to `backup/drp_execution.log`.
+- **Built-in System Utilities:**
+  - On-demand admin backup: `http://localhost/sfu/admin/admin/backup`
+  - Automated cron scheduler: `http://localhost/sfu/cron/autobackup/{cron_key}`
+
+---
+
 ## 🌐 Quick Access URLs (Local Environment)
 
 - **Admin Login:** `http://localhost/sfu/site/login`
+- **Database Backup Utility:** `http://localhost/sfu/admin/admin/backup`
 - **Audit Trail Report:** `http://localhost/sfu/admin/audit`
 - **User Activity Log:** `http://localhost/sfu/admin/userlog`
 - **Reports & Logs Hub:** `http://localhost/sfu/admin/report/log`
@@ -212,4 +236,5 @@ In compliance with Kenya Digital Health Agency (DHA) certification requirements 
 - **Change Password (Admin):** `http://localhost/sfu/admin/admin/changepass`
 - **Patient Login:** `http://localhost/sfu/site/userlogin`
 - **Compliance Tracker:** `http://localhost/sfu/DHA_HMIS_Developer_Compliance_Tracker.md`
+- **Disaster Recovery Plan (DRP):** `http://localhost/sfu/SEFU_HMIS_Disaster_Recovery_Plan_DRP.md`
 

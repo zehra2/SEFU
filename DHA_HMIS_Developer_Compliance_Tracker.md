@@ -57,7 +57,7 @@
 | **DHA-010** | **Role-Based Access Control (RBAC)** | `admin/roles/permission` | Screenshots of permissions grid for 12 system roles showing `can_view`, `can_add`, `can_edit`, `can_delete`. | 🟢 **COMPLETED** |
 | **DHA-011** | **Password Hashing & Storage** | Auth Controller | Verification of Bcrypt hashing (`$2y$10$...`) using PHP `password_hash()`; zero plaintext passwords in database. | 🟢 **COMPLETED** |
 | **DHA-012** | **Session Timeout Management** | `config.php` | CodeIgniter session expiration (`sess_expiration`) enforcing automatic idle logout. | 🟢 **COMPLETED** |
-| **DHA-013** | **Database Backup & Recovery** | `admin/admin/backup` | Built-in MySQL database dump utility and written backup/recovery schedule. | 🟢 **COMPLETED** |
+| **DHA-013** | **Backup & Disaster Recovery Plan (DRP)** | `admin/admin/backup` & `scripts/` | Comprehensive DRP document (`SEFU_HMIS_Disaster_Recovery_Plan_DRP.md`), RPO <= 1h, RTO <= 2h, automated cron backups, SHA-256 verification drill tool. | 🟢 **COMPLETED** |
 | **DHA-014** | **Encryption in Transit (TLS/HTTPS)** | Web Server / SSL | SSL/TLS certificate installed on domain (`care.rofam.africa`); HTTP to HTTPS 301 redirection. | 🟡 **IN PROGRESS** |
 | **DHA-015** | **Clinical & Financial Audit Trails** | `admin/audit` / `admin/userlog` | Complete user activity logging (Insert, Update, Delete) + login history; staff ID capture, RBAC permission toggles per role (e.g. Human Resources), log tampering protection. | 🟢 **COMPLETED** |
 | **DHA-016** | **Multi-Factor Authentication (MFA)** | Login System | 2FA verification for admin and physician logins (via Email OTP or Google Authenticator library). | 🟡 **IN PROGRESS** |
