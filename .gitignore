@@ -1,0 +1,10 @@
+cookies.txt
+temp/*
+!temp/index.html
+backup/database_backup/*
+!backup/database_backup/index.html
+backup/temp_uploaded/*
+!backup/temp_uploaded/index.html
+backup/_tmp/*
+!backup/_tmp/index.html
+
