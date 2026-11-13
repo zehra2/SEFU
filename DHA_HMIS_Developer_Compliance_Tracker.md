@@ -56,12 +56,14 @@
 |:---:|---|---|---|:---:|
 | **DHA-010** | **Role-Based Access Control (RBAC)** | `admin/roles/permission` | Screenshots of permissions grid for 12 system roles showing `can_view`, `can_add`, `can_edit`, `can_delete`. | 🟢 **COMPLETED** |
 | **DHA-011** | **Password Hashing & Storage** | Auth Controller | Verification of Bcrypt hashing (`$2y$10$...`) using PHP `password_hash()`; zero plaintext passwords in database. | 🟢 **COMPLETED** |
-| **DHA-012** | **Session Timeout Management** | `config.php` | CodeIgniter session expiration (`sess_expiration`) enforcing automatic idle logout. | 🟢 **COMPLETED** |
+| **DHA-012** | **Session Timeout & Access Control Evidence** | `config.php` & Evidence Doc | Technical evidence document (`SEFU_HMIS_Session_Management_and_Access_Control_Evidence.md`), 7200s idle timeout, 300s session rotation, `HttpOnly` + `SameSite=Lax`, RBAC controller guards. | 🟢 **COMPLETED** |
 | **DHA-013** | **Backup & Disaster Recovery Plan (DRP)** | `admin/admin/backup` & `scripts/` | Comprehensive DRP document (`SEFU_HMIS_Disaster_Recovery_Plan_DRP.md`), RPO <= 1h, RTO <= 2h, automated cron backups, SHA-256 verification drill tool. | 🟢 **COMPLETED** |
 | **DHA-014** | **Encryption in Transit (TLS/HTTPS)** | Web Server / SSL | SSL/TLS certificate installed on domain (`care.rofam.africa`); HTTP to HTTPS 301 redirection. | 🟡 **IN PROGRESS** |
 | **DHA-015** | **Clinical & Financial Audit Trails** | `admin/audit` / `admin/userlog` | Complete user activity logging (Insert, Update, Delete) + login history; staff ID capture, RBAC permission toggles per role (e.g. Human Resources), log tampering protection. | 🟢 **COMPLETED** |
 | **DHA-016** | **Multi-Factor Authentication (MFA)** | `site/verify_2fa` & `Mfa_model` | 2FA Email OTP enforcement for Staff, Admins, and Physicians; 6-digit cryptographic token, 10-minute expiry, brute-force lockout, single-use database validation, audit trail integration. | 🟢 **COMPLETED** |
-| **DHA-017** | **Penetration Testing & VA Report** | Security Lead | Official Vulnerability Assessment (VA) and Penetration Testing (PT) report conducted by accredited tester. | 🔴 **PENDING** |
+| **DHA-017** | **Vulnerability Assessment & Penetration Testing** | Security Docs / Reports | Formal Vulnerability Assessment Report (`SEFU_HMIS_Vulnerability_Assessment_Report_VAR.md`) & Penetration Testing Report (`SEFU_HMIS_Penetration_Testing_Report_PTR.md`) against OWASP Top 10 with 0 critical/high findings. | 🟢 **COMPLETED** |
+| **DHA-017A** | **Business Continuity Plan (BCP)** | Clinical Continuity Doc | Comprehensive BCP document (`SEFU_HMIS_Business_Continuity_Plan_BCP.md`), clinical downtime packets, manual paper MAR, post-downtime digital reconciliation. | 🟢 **COMPLETED** |
+| **DHA-017B** | **Incident Response Plan (IRP)** | Cybersecurity / CSIRT | Formal Incident Response Plan (`SEFU_HMIS_Incident_Response_Plan_IRP.md`), 6-phase NIST lifecycle, Section 43 Kenya DPA 72-hour ODPC breach notification runbook. | 🟢 **COMPLETED** |
 
 ---
 

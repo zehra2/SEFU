@@ -148,3 +148,4 @@ class Mfa_model extends MY_Model
         }
     }
 }
+
