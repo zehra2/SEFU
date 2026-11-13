@@ -361,6 +361,25 @@ Developed the formal data protection and privacy governance framework required u
 
 ---
 
+## 💾 17. Backup Policy and Configuration Specification (Kenya DHA Section C)
+
+### Overview
+Authored the statutory Backup Policy and Configuration specification ([`SEFU_HMIS_Backup_Policy_and_Configuration.md`](file:///d:/downloads/Smart%20Hospital%20v5.0%20Nulled/Smart%20Hospital%20v5.0%20Nulled/sfu/SEFU_HMIS_Backup_Policy_and_Configuration.md)) directly satisfying Section C ("Backup policy and configuration evidence") of the Kenya DHA certification requirements.
+
+### Key Policy & Engineering Specifications:
+1. **Recovery Metrics:** Enforced RPO $\le$ 1 hour and RTO $\le$ 2 hours.
+2. **3-2-1 Topology:** 3 copies of hospital data, 2 distinct media types (local NVMe + onsite NAS), 1 offsite encrypted replica within Kenya data borders (Section 48/49 Kenya DPA compliance).
+3. **Automated Scheduled Tasks:** PowerShell automation script ([`scripts/drp_backup_verify.ps1`](file:///d:/downloads/Smart%20Hospital%20v5.0%20Nulled/Smart%20Hospital%20v5.0%20Nulled/sfu/scripts/drp_backup_verify.ps1)) and batch launcher ([`scripts/run_backup_drill.bat`](file:///d:/downloads/Smart%20Hospital%20v5.0%20Nulled/Smart%20Hospital%20v5.0%20Nulled/sfu/scripts/run_backup_drill.bat)).
+4. **Concrete Audit Drill Evidence:**
+   - Database dump: `db-drp-2026-11-10_01-30-47.sql` (776.49 KB).
+   - SHA-256 Checksum: `BD70FACF2EE84672866667FA2A59348B521EA3D6592574E10B2A042FB17E5175`.
+   - Valid MySQL EOF signature verified (`-- Dump completed on 2026-11-10 01:30:48`).
+   - 103 media uploads verified intact.
+5. **Encryption & Access Control:** AES-256 encryption at rest, `.htaccess` webroot shielding, and full audit logging of backup generation and downloads.
+6. **Retention:** Daily (30 days), Weekly (12 weeks), Monthly (12 months), and Annual statutory clinical record archive (7 years).
+
+---
+
 ## 🌐 Quick Access URLs (Local Environment)
 
 - **Admin Login:** `http://localhost/sfu/site/login`
@@ -379,6 +398,7 @@ Developed the formal data protection and privacy governance framework required u
 - **Change Password (Admin):** `http://localhost/sfu/admin/admin/changepass`
 - **Patient Login:** `http://localhost/sfu/site/userlogin`
 - **Compliance Tracker:** `http://localhost/sfu/DHA_HMIS_Developer_Compliance_Tracker.md`
+- **Backup Policy & Configuration:** `http://localhost/sfu/SEFU_HMIS_Backup_Policy_and_Configuration.md`
 - **Disaster Recovery Plan (DRP):** `http://localhost/sfu/SEFU_HMIS_Disaster_Recovery_Plan_DRP.md`
 - **Business Continuity Plan (BCP):** `http://localhost/sfu/SEFU_HMIS_Business_Continuity_Plan_BCP.md`
 - **Incident Response Plan (IRP):** `http://localhost/sfu/SEFU_HMIS_Incident_Response_Plan_IRP.md`

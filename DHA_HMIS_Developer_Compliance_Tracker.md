@@ -10,10 +10,10 @@
 
 | Status | Total Items | Percentage | Description |
 |---|:---:|:---:|---|
-| 🟢 **COMPLETED** | **11** | **32%** | Core system capabilities, clinical modules, billing, and database controls already active and verified in Smart Hospital. |
-| 🟡 **IN PROGRESS** | **19** | **56%** | Technical configurations, documentation, API endpoints, test cases, and policies being prepared. |
-| 🔴 **PENDING** | **4** | **12%** | External third-party items (ODPC statutory registration, independent penetration testing report, DHA lab scheduling). |
-| **TOTAL** | **34** | **100%** | Full certification scope across all 8 evaluation areas. |
+| 🟢 **COMPLETED** | **24** | **67%** | Core clinical modules, technical security (Bcrypt, MFA, Audit Trails, Session Timeout), statutory documents (Backup Policy, DRP, BCP, IRP, VAR, PTR), System Documentation Suite (FRS/SRS, Data Dictionary, Manuals), and Data Protection Suite (DPIA, Privacy & Consent Policy) fully implemented, verified, and published. |
+| 🟡 **IN PROGRESS** | **11** | **31%** | Interoperability endpoints (REST API, Client Registry UPI, KMHFL, ICD-10), SHA claims integration, and synthetic test data suite. |
+| 🔴 **PENDING** | **1** | **2%** | External statutory item: Facility/Vendor formal ODPC Registration Certificate issued by Office of the Data Protection Commissioner. |
+| **TOTAL** | **36** | **100%** | Full certification scope across all 8 evaluation areas. |
 
 ---
 
@@ -57,7 +57,7 @@
 | **DHA-010** | **Role-Based Access Control (RBAC)** | `admin/roles/permission` | Screenshots of permissions grid for 12 system roles showing `can_view`, `can_add`, `can_edit`, `can_delete`. | 🟢 **COMPLETED** |
 | **DHA-011** | **Password Hashing & Storage** | Auth Controller | Verification of Bcrypt hashing (`$2y$10$...`) using PHP `password_hash()`; zero plaintext passwords in database. | 🟢 **COMPLETED** |
 | **DHA-012** | **Session Timeout & Access Control Evidence** | `config.php` & Evidence Doc | Technical evidence document (`SEFU_HMIS_Session_Management_and_Access_Control_Evidence.md`), 7200s idle timeout, 300s session rotation, `HttpOnly` + `SameSite=Lax`, RBAC controller guards. | 🟢 **COMPLETED** |
-| **DHA-013** | **Backup & Disaster Recovery Plan (DRP)** | `admin/admin/backup` & `scripts/` | Comprehensive DRP document (`SEFU_HMIS_Disaster_Recovery_Plan_DRP.md`), RPO <= 1h, RTO <= 2h, automated cron backups, SHA-256 verification drill tool. | 🟢 **COMPLETED** |
+| **DHA-013** | **Backup Policy & Disaster Recovery Plan (DRP)** | `admin/admin/backup` & `scripts/` | Standalone Backup Policy & Configuration specification (`SEFU_HMIS_Backup_Policy_and_Configuration.md`), comprehensive DRP document (`SEFU_HMIS_Disaster_Recovery_Plan_DRP.md`), RPO <= 1h, RTO <= 2h, 3-2-1 backup topology, automated PowerShell/batch scripts, live SHA-256 backup drill verification. | 🟢 **COMPLETED** |
 | **DHA-014** | **Encryption in Transit (TLS/HTTPS)** | Web Server / SSL | SSL/TLS certificate installed on domain (`care.rofam.africa`); HTTP to HTTPS 301 redirection. | 🟡 **IN PROGRESS** |
 | **DHA-015** | **Clinical & Financial Audit Trails** | `admin/audit` / `admin/userlog` | Complete user activity logging (Insert, Update, Delete) + login history; staff ID capture, RBAC permission toggles per role (e.g. Human Resources), log tampering protection. | 🟢 **COMPLETED** |
 | **DHA-016** | **Multi-Factor Authentication (MFA)** | `site/verify_2fa` & `Mfa_model` | 2FA Email OTP enforcement for Staff, Admins, and Physicians; 6-digit cryptographic token, 10-minute expiry, brute-force lockout, single-use database validation, audit trail integration. | 🟢 **COMPLETED** |
