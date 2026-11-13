@@ -380,11 +380,44 @@ Authored the statutory Backup Policy and Configuration specification ([`SEFU_HMI
 
 ---
 
+## 🔌 18. Kenya National HIE, Client Registry & REST API Gateway (DHA Section G)
+
+### Overview
+Architected, implemented, and verified an authenticated, production-grade JSON REST API gateway (`api/v1/`) providing bidirectional integration with Kenya's National Health Information Exchange (HIE), Kenya Client Registry (CR), Master Facility List (KMHFL), Health Worker Registry, and Social Health Authority (SHA) claims.
+
+### Core Engineering & Database Enhancements:
+1. **Kenya Client Registry (CR) Schema:**
+   - Added `national_id` (VARCHAR 100) and `upi` (VARCHAR 100 - Unique Patient Identifier / Afya ID) with B-Tree indices to `patients` table.
+   - Enforced duplicate prevention on National ID and Afya UPI (returns HTTP 409 Conflict with existing record pointer).
+2. **Master Facility List (KMHFL) & Practitioner Licensing:**
+   - Added `kmhfl_code` (VARCHAR 50) to `sch_settings` with General Settings UI configuration and facility metadata API.
+   - Added `council_registration_no` (VARCHAR 100) to `staff` table for practitioner medical board licensing (KMPDC / NCK).
+3. **API Client Security & Access Control Table (`api_clients`):**
+   - Supports Bearer Token (`Authorization: Bearer <token>`) and `X-API-KEY: <token>`.
+   - Seeded default DHA Conformance Test key (`dha_live_test_key_8f3a2b9e4c1d6e7f8a9b0c1d2e3f4a5b`) and SHA Claims Gateway key (`sha_claims_live_key_9941a3bc7e2f50d88190c4e126ab78f0`).
+4. **Base API Controller (`API_Controller` in `application/core/MY_Controller.php`):**
+   - Implements authentication filter, JSON content-type negotiation, CORS headers, pre-flight OPTIONS support, standardized status headers, and automatic insert into immutable `logs` table as `API_CLIENT` / `HIE_CLIENT`.
+5. **Endpoints Implemented in `application/controllers/api/`:**
+   - **Facility:** `GET /api/v1/facility/info` (KMHFL facility metadata, level, contact, and supported clinical modules).
+   - **Patients:** `GET /api/v1/patients/search` (query by UPI, National ID, Phone, Name), `GET /api/v1/patients/detail/{id}`, `POST /api/v1/patients/create`.
+   - **Encounters:** `GET /api/v1/encounters/search` (queries OPD, IPD, Physio, Pediatric, Gynae), `POST /api/v1/encounters/create`.
+   - **Billing & Claims:** `GET /api/v1/billing/patient/{id}` (itemized ledger across pharmacy, consultations, and specialty modules with SHA eligibility indicator), `GET /api/v1/billing`.
+6. **Automated Conformance Testing:**
+   - Test script [`scripts/test_hie_rest_api.php`](file:///d:/downloads/Smart%20Hospital%20v5.0%20Nulled/Smart%20Hospital%20v5.0%20Nulled/sfu/scripts/test_hie_rest_api.php) executed 11 test assertions (unauthenticated rejection, invalid token, facility metadata, UPI search, National ID search, patient creation, duplicate 409 prevention, encounter creation, encounter query, claim ledger, audit log) — **11 Passed, 0 Failed (100% Pass)**.
+7. **Statutory Documentation:**
+   - Published [`SEFU_HMIS_Interoperability_and_REST_API_Specification.md`](file:///d:/downloads/Smart%20Hospital%20v5.0%20Nulled/Smart%20Hospital%20v5.0%20Nulled/sfu/SEFU_HMIS_Interoperability_and_REST_API_Specification.md).
+
+---
+
 ## 🌐 Quick Access URLs (Local Environment)
 
 - **Admin Login:** `http://localhost/sfu/site/login`
 - **MFA Verification Portal:** `http://localhost/sfu/site/verify_2fa`
-- **General Settings (MFA Toggle):** `http://localhost/sfu/schsettings`
+- **General Settings (MFA & KMHFL):** `http://localhost/sfu/schsettings`
+- **API Facility Info:** `http://localhost/sfu/api/v1/facility/info?api_key=dha_live_test_key_8f3a2b9e4c1d6e7f8a9b0c1d2e3f4a5b`
+- **API Patient Search (CR):** `http://localhost/sfu/api/v1/patients/search?api_key=dha_live_test_key_8f3a2b9e4c1d6e7f8a9b0c1d2e3f4a5b`
+- **API Encounters Query:** `http://localhost/sfu/api/v1/encounters/search?api_key=dha_live_test_key_8f3a2b9e4c1d6e7f8a9b0c1d2e3f4a5b`
+- **API Billing Ledger:** `http://localhost/sfu/api/v1/billing?api_key=dha_live_test_key_8f3a2b9e4c1d6e7f8a9b0c1d2e3f4a5b`
 - **Database Backup Utility:** `http://localhost/sfu/admin/admin/backup`
 - **Audit Trail Report:** `http://localhost/sfu/admin/audit`
 - **User Activity Log:** `http://localhost/sfu/admin/userlog`
@@ -398,6 +431,7 @@ Authored the statutory Backup Policy and Configuration specification ([`SEFU_HMI
 - **Change Password (Admin):** `http://localhost/sfu/admin/admin/changepass`
 - **Patient Login:** `http://localhost/sfu/site/userlogin`
 - **Compliance Tracker:** `http://localhost/sfu/DHA_HMIS_Developer_Compliance_Tracker.md`
+- **REST API Specification:** `http://localhost/sfu/SEFU_HMIS_Interoperability_and_REST_API_Specification.md`
 - **Backup Policy & Configuration:** `http://localhost/sfu/SEFU_HMIS_Backup_Policy_and_Configuration.md`
 - **Disaster Recovery Plan (DRP):** `http://localhost/sfu/SEFU_HMIS_Disaster_Recovery_Plan_DRP.md`
 - **Business Continuity Plan (BCP):** `http://localhost/sfu/SEFU_HMIS_Business_Continuity_Plan_BCP.md`

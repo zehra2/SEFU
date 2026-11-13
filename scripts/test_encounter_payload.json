@@ -1,0 +1,12 @@
+{
+  "patient_id": 2,
+  "doctor_id": 1,
+  "encounter_date": "2026-11-14 09:30:00",
+  "symptoms": "Intermittent headache, mild fever for 3 days",
+  "bp": "120/80",
+  "height": "165",
+  "weight": "62",
+  "pulse": "74",
+  "temperature": "37.4",
+  "notes": "Patient advised hydration, paracetamol 500mg TDS, blood slide ordered for malaria."
+}

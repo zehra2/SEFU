@@ -28,3 +28,19 @@ $route['page/annual_calendar']     = 'welcome/annual_calendar';
 $route['page/(:any)'] = 'welcome/page/$1';
 $route['read/(:any)'] = 'welcome/read/$1';
 $route['frontend']    = 'welcome';
+
+//======= Kenya HIE / DHA REST API v1 Routes ==========
+$route['api/v1/facility/info']              = 'api/facility/info';
+$route['api/v1/patients/search']            = 'api/patients/search';
+$route['api/v1/patients/create']            = 'api/patients/create';
+$route['api/v1/patients/detail/(:any)']     = 'api/patients/detail/$1';
+$route['api/v1/patients/(:any)']            = 'api/patients/detail/$1';
+$route['api/v1/patients']                   = 'api/patients/index';
+$route['api/v1/encounters/search']          = 'api/encounters/search';
+$route['api/v1/encounters/create']          = 'api/encounters/create';
+$route['api/v1/encounters/detail/(:any)']   = 'api/encounters/search?id=$1';
+$route['api/v1/encounters/(:any)']          = 'api/encounters/search?id=$1';
+$route['api/v1/encounters']                 = 'api/encounters/index';
+$route['api/v1/billing/patient/(:any)']     = 'api/billing/patient/$1';
+$route['api/v1/billing/detail/(:any)']      = 'api/billing/patient/$1';
+$route['api/v1/billing']                    = 'api/billing/index';

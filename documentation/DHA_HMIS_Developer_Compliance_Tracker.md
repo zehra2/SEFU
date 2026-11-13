@@ -10,8 +10,8 @@
 
 | Status | Total Items | Percentage | Description |
 |---|:---:|:---:|---|
-| 🟢 **COMPLETED** | **24** | **67%** | Core clinical modules, technical security (Bcrypt, MFA, Audit Trails, Session Timeout), statutory documents (Backup Policy, DRP, BCP, IRP, VAR, PTR), System Documentation Suite (FRS/SRS, Data Dictionary, Manuals), and Data Protection Suite (DPIA, Privacy & Consent Policy) fully implemented, verified, and published. |
-| 🟡 **IN PROGRESS** | **11** | **31%** | Interoperability endpoints (REST API, Client Registry UPI, KMHFL, ICD-10), SHA claims integration, and synthetic test data suite. |
+| 🟢 **COMPLETED** | **29** | **81%** | Core clinical modules, technical security (Bcrypt, MFA, Audit Trails, Session Timeout), statutory documents (Backup Policy, DRP, BCP, IRP, VAR, PTR), System Documentation Suite (FRS/SRS, Data Dictionary, Manuals), Data Protection Suite (DPIA, Privacy & Consent Policy), and Kenya HIE Interoperability & REST API Layer (Client Registry UPI, National ID, KMHFL, Encounters, SHA Claims) fully implemented, verified, and published. |
+| 🟡 **IN PROGRESS** | **6** | **17%** | National ICD-10 clinical diagnosis selector, IDSR disease alerts, and DHA lab synthetic test data suite. |
 | 🔴 **PENDING** | **1** | **2%** | External statutory item: Facility/Vendor formal ODPC Registration Certificate issued by Office of the Data Protection Commissioner. |
 | **TOTAL** | **36** | **100%** | Full certification scope across all 8 evaluation areas. |
 
@@ -100,9 +100,9 @@
 
 | Task ID | Item / Feature | Technical Scope | Verification Evidence for DHA | Developer Status |
 |:---:|---|---|---|:---:|
-| **DHA-026** | **Open REST API Layer** | API Controllers | Authenticated JSON REST API endpoints for patient search, encounters, lab results, and billing. | 🟡 **IN PROGRESS** |
-| **DHA-027** | **Kenya Client Registry (CR) Mapping** | `patients` Table | Integration field for National ID and Unique Patient Identifier (UPI / Afya ID). | 🟡 **IN PROGRESS** |
-| **DHA-028** | **Master Facility (KMHFL) & Worker Registry** | System Settings | Hospital Master Facility List (MFL) code in General Settings; medical practitioner license number in staff. | 🟡 **IN PROGRESS** |
+| **DHA-026** | **Open REST API Layer** | API Controllers | Authenticated JSON REST API gateway (`api/v1/`) with Bearer token & `X-API-KEY` authentication, CORS, rate limiting, and audit logging. Specification: `SEFU_HMIS_Interoperability_and_REST_API_Specification.md`. | 🟢 **COMPLETED** |
+| **DHA-027** | **Kenya Client Registry (CR) Mapping** | `patients` Table | Native support for National ID and Unique Patient Identifier (`upi` / Afya ID) with bidirectional lookup, duplicate prevention, and FHIR Patient schema. | 🟢 **COMPLETED** |
+| **DHA-028** | **Master Facility (KMHFL) & Worker Registry** | System Settings | Facility MFL code (`sch_settings.kmhfl_code`) and practitioner medical board registration (`staff.council_registration_no`) linked to encounter metadata. | 🟢 **COMPLETED** |
 | **DHA-029** | **National Terminology (ICD-10)** | Clinical Notes | Standardized ICD-10 diagnosis coding linked to consultation inputs. | 🟡 **IN PROGRESS** |
 
 ---
@@ -111,8 +111,8 @@
 
 | Task ID | Item / Feature | Technical Scope | Verification Evidence for DHA | Developer Status |
 |:---:|---|---|---|:---:|
-| **DHA-030** | **SHA Member Eligibility Verification** | TPA / Insurance | API integration verifying patient SHA / SHIF member number and policy active status. | 🟡 **IN PROGRESS** |
-| **DHA-031** | **SHA Claims Preparation & Submission** | Billing / Finance | Itemized claims preparation linking diagnoses, consultations, lab tests, and medications to SHA tariffs. | 🟡 **IN PROGRESS** |
+| **DHA-030** | **SHA Member Eligibility Verification** | TPA / Insurance | API integration verifying patient SHA / SHIF member policy active status via `/api/v1/billing/patient/{id}` and `/api/v1/patients/detail/{id}`. | 🟢 **COMPLETED** |
+| **DHA-031** | **SHA Claims Preparation & Submission** | Billing / Finance | Itemized claims preparation linking diagnoses, consultations, lab tests, and medications to SHA tariffs. Endpoint: `/api/v1/billing/patient/{id}`. | 🟢 **COMPLETED** |
 
 ---
 

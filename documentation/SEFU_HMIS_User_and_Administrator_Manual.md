@@ -127,3 +127,4 @@ This manual provides operational guidance for clinical healthcare workers, depar
 **Approved by:**  
 *Chief Technology Officer & Lead Solutions Architect*  
 *SEFU Health Systems — Kenya Digital Health Agency (DHA) Compliance*
+

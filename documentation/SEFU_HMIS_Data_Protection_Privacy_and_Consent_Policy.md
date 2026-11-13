@@ -111,3 +111,4 @@ Between the **Healthcare Facility (Data Controller)** and **SEFU Health Systems 
 **Approved by:**  
 *Data Protection Officer & Medical Superintendent*  
 *SEFU Health Systems — Kenya Digital Health Agency (DHA) Compliance*
+

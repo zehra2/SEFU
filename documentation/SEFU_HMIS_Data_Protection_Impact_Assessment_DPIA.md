@@ -114,3 +114,4 @@ The Data Protection Impact Assessment confirms that the technical, organizationa
 *Data Protection Officer (ODPC Registered Lead)*  
 *Chief Technology Officer (CTO)*  
 *SEFU Health Systems Limited — Kenya Digital Health Agency (DHA) Compliance Filing*
+

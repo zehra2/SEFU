@@ -162,3 +162,4 @@ SEFU HMIS enforces 13 specialized roles, each configured with granular CRUD perm
 **Approved by:**  
 *Chief Technology Officer & Lead Solutions Architect*  
 *SEFU Health Systems — Kenya Digital Health Agency (DHA) Compliance*
+

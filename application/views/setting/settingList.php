@@ -398,6 +398,45 @@ $genderList = $this->customlib->getGender();
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label class="col-sm-6">KMHFL Facility Code (Kenya HIE)</label>
+                                            <div class="col-sm-6">
+                                                <input type="text" class="form-control" name="sch_kmhfl_code" value="<?php echo !empty($settinglist->kmhfl_code) ? htmlspecialchars($settinglist->kmhfl_code) : (!empty($settinglist->dise_code) ? htmlspecialchars($settinglist->dise_code) : '12345'); ?>" placeholder="e.g. 12345">
+                                                <small class="text-muted">Kenya Master Health Facility List (MFL)</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="settinghr"></div>
+                                        <h4 class="session-head">Kenya National HIE & REST API Interoperability (DHA Form HMIS 4)</h4>
+                                        <div class="alert alert-info" style="background-color: #f0f7fd; border-left: 4px solid #2196f3; color: #31708f;">
+                                            <p><strong><i class="fa fa-info-circle"></i> Authenticated REST API Gateway Active:</strong> SEFU HMIS provides standard HL7 FHIR / JSON REST API endpoints for national health information exchange (Kenya Client Registry, SHA Claims, and Master Facility Registry).</p>
+                                            <div class="row" style="margin-top: 10px;">
+                                                <div class="col-md-4">
+                                                    <strong>Base API URL:</strong><br>
+                                                    <code><?php echo base_url('api/v1/'); ?></code>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <strong>DHA Live Test Key:</strong><br>
+                                                    <code>dha_live_test_key_8f3a2b9e4c1d6e7f8a9b0c1d2e3f4a5b</code>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <strong>Client Registry UPI Mapping:</strong><br>
+                                                    <span class="label label-success">Active (Afya ID & National ID)</span>
+                                                </div>
+                                            </div>
+                                            <p style="margin-top: 12px; margin-bottom: 0;">
+                                                <strong>Endpoints:</strong> &nbsp;
+                                                <a href="<?php echo base_url('api/v1/facility/info?api_key=dha_live_test_key_8f3a2b9e4c1d6e7f8a9b0c1d2e3f4a5b'); ?>" target="_blank" class="btn btn-default btn-xs"><i class="fa fa-hospital-o"></i> Facility Info</a> &nbsp;
+                                                <a href="<?php echo base_url('api/v1/patients/search?api_key=dha_live_test_key_8f3a2b9e4c1d6e7f8a9b0c1d2e3f4a5b'); ?>" target="_blank" class="btn btn-default btn-xs"><i class="fa fa-user"></i> Patient Search (CR)</a> &nbsp;
+                                                <a href="<?php echo base_url('api/v1/encounters/search?api_key=dha_live_test_key_8f3a2b9e4c1d6e7f8a9b0c1d2e3f4a5b'); ?>" target="_blank" class="btn btn-default btn-xs"><i class="fa fa-stethoscope"></i> Encounters</a> &nbsp;
+                                                <a href="<?php echo base_url('api/v1/billing?api_key=dha_live_test_key_8f3a2b9e4c1d6e7f8a9b0c1d2e3f4a5b'); ?>" target="_blank" class="btn btn-default btn-xs"><i class="fa fa-money"></i> Billing / Claims</a>
+                                            </p>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12">

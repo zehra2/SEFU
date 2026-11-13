@@ -270,3 +270,145 @@ class Front_Controller extends CI_Controller
     }
 
 }
+
+/**
+ * Base API Controller for Kenya HIE & REST API Interoperability (DHA Form HMIS 4)
+ * Provides Token Authentication, CORS, JSON Formatting, and Audit Logging.
+ */
+class API_Controller extends CI_Controller
+{
+    protected $authenticated_client = null;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->load->database();
+        $this->load->helper('url');
+
+        // Prevent browser caching of API responses
+        $this->output->set_header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+        $this->output->set_header('Pragma: no-cache');
+
+        // CORS headers for external interoperability
+        $this->output->set_header('Access-Control-Allow-Origin: *');
+        $this->output->set_header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
+        $this->output->set_header('Access-Control-Allow-Headers: Content-Type, Authorization, X-API-KEY');
+
+        // Handle pre-flight OPTIONS request
+        if ($this->input->method() === 'options') {
+            $this->output->set_status_header(200);
+            $this->output->_display();
+            exit;
+        }
+
+        // Authenticate request
+        $this->authenticate_api_request();
+    }
+
+    protected function authenticate_api_request()
+    {
+        $token = null;
+
+        // 1. Check Authorization: Bearer <token>
+        $auth_header = $this->input->get_request_header('Authorization', TRUE);
+        if ($auth_header && preg_match('/Bearer\s+(.*)$/i', $auth_header, $matches)) {
+            $token = trim($matches[1]);
+        }
+
+        // 2. Fallback to X-API-KEY header
+        if (!$token) {
+            $token = $this->input->get_request_header('X-API-KEY', TRUE);
+        }
+
+        // 3. Fallback to query parameter ?api_key= (useful for integration verification)
+        if (!$token) {
+            $token = $this->input->get('api_key', TRUE);
+        }
+
+        if (!$token) {
+            $this->error_json("Unauthorized. Missing authentication credential. Pass 'Authorization: Bearer <token>' or 'X-API-KEY: <token>' header.", 401);
+        }
+
+        // Validate token against api_clients table
+        $query = $this->db->get_where('api_clients', array('api_key' => $token, 'is_active' => 1));
+        $client = $query->row_array();
+
+        if (!$client) {
+            $this->error_json("Unauthorized. Invalid or deactivated API token.", 401);
+        }
+
+        $this->authenticated_client = $client;
+
+        // Update last_used_at timestamp
+        $this->db->where('id', $client['id'])->update('api_clients', array('last_used_at' => date('Y-m-d H:i:s')));
+    }
+
+    protected function response_json($data, $status_code = 200)
+    {
+        $payload = array(
+            'status' => 'success',
+            'code' => $status_code,
+            'timestamp' => date('c'),
+            'facility_kmhfl' => $this->get_facility_kmhfl(),
+            'data' => $data
+        );
+
+        $this->output
+            ->set_status_header($status_code)
+            ->set_content_type('application/json', 'utf-8')
+            ->set_output(json_encode($payload, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES))
+            ->_display();
+        exit;
+    }
+
+    protected function error_json($message, $status_code = 400, $errors = array())
+    {
+        $payload = array(
+            'status' => 'error',
+            'code' => $status_code,
+            'message' => $message,
+            'timestamp' => date('c'),
+            'errors' => $errors
+        );
+
+        $this->output
+            ->set_status_header($status_code)
+            ->set_content_type('application/json', 'utf-8')
+            ->set_output(json_encode($payload, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES))
+            ->_display();
+        exit;
+    }
+
+    protected function get_json_input()
+    {
+        $raw = file_get_contents('php://input');
+        if (empty($raw)) {
+            return $this->input->post();
+        }
+        $data = json_decode($raw, true);
+        return is_array($data) ? $data : array();
+    }
+
+    protected function get_facility_kmhfl()
+    {
+        $row = $this->db->select('kmhfl_code')->get('sch_settings')->row_array();
+        return !empty($row['kmhfl_code']) ? $row['kmhfl_code'] : '12345';
+    }
+
+    protected function log_api_audit($action, $record_id = null)
+    {
+        $client_name = $this->authenticated_client ? $this->authenticated_client['client_name'] : 'External API';
+        $data = array(
+            'message'    => 'API ' . $this->input->method(TRUE) . ' ' . $this->uri->uri_string() . ' - Client: ' . $client_name,
+            'record_id'  => $record_id ? intval($record_id) : 0,
+            'user_id'    => 1,
+            'ip_address' => $this->input->ip_address(),
+            'action'     => $action,
+            'user_type'  => 'API_CLIENT',
+            'user_name'  => $client_name,
+            'user_role'  => 'HIE_CLIENT',
+            'created_at' => date('Y-m-d')
+        );
+        $this->db->insert('logs', $data);
+    }
+}
