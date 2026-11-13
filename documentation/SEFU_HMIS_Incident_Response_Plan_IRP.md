@@ -149,3 +149,4 @@ If the breach is likely to result in high risk to patient rights, dignity, or pr
 **Approved by:**  
 *Chief Information Security Officer & Data Protection Officer*  
 *SEFU Health Systems — Kenya Digital Health Agency (DHA) Compliance*
+

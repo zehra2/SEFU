@@ -72,8 +72,8 @@
 | Task ID | Item / Feature | Scope | Verification Evidence for DHA | Developer Status |
 |:---:|---|---|---|:---:|
 | **DHA-018** | **ODPC Registration Certificate** | Company / Legal | Proof of registration as Data Controller / Processor from Kenya ODPC (PDF <= 2MB). | 🔴 **PENDING** |
-| **DHA-019** | **Data Protection Impact Assessment (DPIA)** | Compliance | Formal DPIA covering health data collection, storage, access control, risk mitigation, and retention rules. | 🟡 **IN PROGRESS** |
-| **DHA-020** | **Privacy & Patient Consent Policy** | Legal / Product | Written policy for patient consent during intake, data subject rights, breach notification, and disposal. | 🟡 **IN PROGRESS** |
+| **DHA-019** | **Data Protection Impact Assessment (DPIA)** | Compliance | Comprehensive statutory DPIA document (`SEFU_HMIS_Data_Protection_Impact_Assessment_DPIA.md`) covering health data lifecycle, risk matrix, safeguards, and DPO sign-off. | 🟢 **COMPLETED** |
+| **DHA-020** | **Privacy & Patient Consent Policy** | Legal / Product | Complete policy document (`SEFU_HMIS_Data_Protection_Privacy_and_Consent_Policy.md`) covering patient consent intake, data subject rights, 7-year retention, disposal, and DPA. | 🟢 **COMPLETED** |
 
 ---
 
@@ -81,9 +81,9 @@
 
 | Task ID | Item / Feature | Scope | Verification Evidence for DHA | Developer Status |
 |:---:|---|---|---|:---:|
-| **DHA-021** | **System Architecture & FRS / SRS** | Developers | Diagram showing 3-tier architecture (MVC, MariaDB/MySQL, REST API) + Functional Requirements Specification. | 🟡 **IN PROGRESS** |
-| **DHA-022** | **User Manual & Administrator Guide** | Product / QA | Complete illustrated user manual for doctors, nurses, receptionists, lab technicians, and administrators. | 🟡 **IN PROGRESS** |
-| **DHA-023** | **Database Schema & Data Dictionary** | Developers | Entity-relationship description, table schemas, and data dictionary defining all tables and fields. | 🟡 **IN PROGRESS** |
+| **DHA-021** | **System Architecture & FRS / SRS** | Developers | Comprehensive technical and functional specification (`SEFU_HMIS_Functional_and_System_Requirements_Specification_FRS_SRS.md`) with 4-tier architecture diagram, module FRs, and stack specs. | 🟢 **COMPLETED** |
+| **DHA-022** | **User Manual & Administrator Guide** | Product / QA | Complete operational manual (`SEFU_HMIS_User_and_Administrator_Manual.md`) covering Admin configuration, RBAC delegation, MFA, backup drills, and departmental clinical workflows. | 🟢 **COMPLETED** |
+| **DHA-023** | **Database Schema & Data Dictionary** | Developers | Database architecture & entity-relationship document (`SEFU_HMIS_Database_Data_Dictionary_and_Architecture.md`) with Mermaid ER diagram and comprehensive data dictionary for all core tables. | 🟢 **COMPLETED** |
 
 ---
 

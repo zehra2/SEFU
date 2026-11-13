@@ -138,3 +138,4 @@ and link downtime number  lab results, and operative reports                    
 **Approved by:**  
 *Hospital Medical Superintendent & Chief Technology Officer*  
 *SEFU Health Systems — Kenya Digital Health Agency (DHA) Compliance*
+

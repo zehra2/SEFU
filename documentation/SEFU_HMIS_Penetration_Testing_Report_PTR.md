@@ -124,3 +124,4 @@ SEFU HMIS has demonstrated compliance with the cybersecurity and penetration tes
 **Signed by:**  
 *Lead Ethical Hacker & Penetration Testing Director (OSCP, CEH, CISSP)*  
 *SEFU Cyber Defense & Compliance Laboratory — Kenya DHA Certification Partner*
+

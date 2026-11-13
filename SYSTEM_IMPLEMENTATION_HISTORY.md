@@ -321,6 +321,46 @@ Conducted rigorous ethical hacking and intrusive penetration testing following t
 
 ---
 
+## 📑 15. System Technical & Functional Documentation Suite (Kenya DHA Section D)
+
+### Overview
+In accordance with Kenya Health Information Management Procedures Regulations 2025 (Form HMIS 4) and Section D of the DHA certification requirements, a complete statutory technical documentation suite was authored and published.
+
+### Published Documentation Specifications:
+1. **Functional Requirements Specification (FRS) & SRS (`SEFU_HMIS_Functional_and_System_Requirements_Specification_FRS_SRS.md`):**
+   - 4-Tier Architecture Diagram (Presentation, Gateway/Security, Application MVC, Data Tier).
+   - Server Hardware Sizing (Level 3-4 vs. Level 5-6 Hospital baselines).
+   - Module Functional Descriptions across 23 functional requirements covering MPI, OPD, IPD, Physiotherapy, Pediatrics, Gynaecology, Diagnostics, Pharmacy, Billing, MFA, and Audit Trails.
+   - 13-Role RBAC authorization matrix.
+2. **Database Architecture & Data Dictionary (`SEFU_HMIS_Database_Data_Dictionary_and_Architecture.md`):**
+   - Entity-Relationship Diagram (Mermaid ER format) linking patient encounters to specialty modules, diagnostics, pharmacy, transactions, and audit logs.
+   - Comprehensive data dictionary defining column names, data types, nullability, keys, default values, and clinical descriptions for core tables (`patients`, `physiotherapy`, `pediatric`, `gynaecology`, `logs`, `staff_mfa_otps`).
+3. **User & Administrator Manuals (`SEFU_HMIS_User_and_Administrator_Manual.md`):**
+   - **Part I (Administrator Manual):** General settings, staff onboarding, RBAC permission assignment, MFA management, backup/restore drills, and audit trail inspection.
+   - **Part II (Clinical & Departmental Manual):** Front office intake, OPD consultations, electronic prescribing, specialty modules (Physio, Pediatric, Gynae), laboratory diagnostics, pharmacy inventory, and cashier invoicing.
+
+---
+
+## ⚖️ 16. Data Protection & Privacy Compliance Suite (Kenya ODPC & DHA Section B)
+
+### Overview
+Developed the formal data protection and privacy governance framework required under Section 31 of the Kenya Data Protection Act 2019 and the DHA certification portal checklist (mandatory uploads $\le$ 2MB).
+
+### Published Compliance Policies:
+1. **Data Protection Impact Assessment - DPIA (`SEFU_HMIS_Data_Protection_Impact_Assessment_DPIA.md`):**
+   - Clarifies legal roles: Healthcare Facility as **Data Controller** (determines purpose of processing) and SEFU Health Systems as **Data Processor** (hosts and supports platform).
+   - Sensitive health data lifecycle mapping: Collection, Processing, Storage, Transmission, Retention, and Disposal.
+   - Threat modeling and risk assessment matrix evaluating 8 major privacy risks and verifying technical safeguards (MFA, RBAC, Bcrypt, TLS 1.3, parameterized queries, immutable audit logs).
+   - DPO sign-off confirming residual privacy risks are acceptable and properly controlled.
+2. **Data Protection, Privacy & Patient Consent Policy (`SEFU_HMIS_Data_Protection_Privacy_and_Consent_Policy.md`):**
+   - **Patient Consent Intake:** Standard informed consent protocol, electronic consent recording, and vital interests exception for unconscious/emergency trauma patients.
+   - **Data Subject Rights Procedures:** Step-by-step procedures for fulfilling patient Right of Access (via Patient Portal), Right to Rectification, Right to Erasure / De-identification, and Data Portability.
+   - **Medical Record Retention & Disposal:** Strict compliance with national 7-year medical retention rule for adult clinical files, 25-year retention for pediatric and maternity records, and certified cryptographic data purging.
+   - **Cross-Border Data Transfer:** Kenya data localization mandate; strict prohibition of offshore data replication without ODPC approval.
+   - **Data Processing Agreement (DPA):** Standard contractual terms between healthcare facilities and software vendor.
+
+---
+
 ## 🌐 Quick Access URLs (Local Environment)
 
 - **Admin Login:** `http://localhost/sfu/site/login`
@@ -345,4 +385,9 @@ Conducted rigorous ethical hacking and intrusive penetration testing following t
 - **Vulnerability Assessment Report (VAR):** `http://localhost/sfu/SEFU_HMIS_Vulnerability_Assessment_Report_VAR.md`
 - **Penetration Testing Report (PTR):** `http://localhost/sfu/SEFU_HMIS_Penetration_Testing_Report_PTR.md`
 - **Session Management Evidence:** `http://localhost/sfu/SEFU_HMIS_Session_Management_and_Access_Control_Evidence.md`
+- **Functional Requirements (FRS / SRS):** `http://localhost/sfu/SEFU_HMIS_Functional_and_System_Requirements_Specification_FRS_SRS.md`
+- **Database Architecture & Data Dictionary:** `http://localhost/sfu/SEFU_HMIS_Database_Data_Dictionary_and_Architecture.md`
+- **User & Administrator Manual:** `http://localhost/sfu/SEFU_HMIS_User_and_Administrator_Manual.md`
+- **Data Protection Impact Assessment (DPIA):** `http://localhost/sfu/SEFU_HMIS_Data_Protection_Impact_Assessment_DPIA.md`
+- **Privacy & Patient Consent Policy:** `http://localhost/sfu/SEFU_HMIS_Data_Protection_Privacy_and_Consent_Policy.md`
 
