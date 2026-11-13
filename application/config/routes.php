@@ -31,6 +31,7 @@ $route['frontend']    = 'welcome';
 
 //======= Kenya HIE / DHA REST API v1 Routes ==========
 $route['api/v1/facility/info']              = 'api/facility/info';
+$route['api/v1/terminology/icd10']          = 'api/terminology/icd10';
 $route['api/v1/patients/search']            = 'api/patients/search';
 $route['api/v1/patients/create']            = 'api/patients/create';
 $route['api/v1/patients/detail/(:any)']     = 'api/patients/detail/$1';

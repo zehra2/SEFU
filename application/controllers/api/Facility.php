@@ -60,3 +60,4 @@ class Facility extends API_Controller
         $this->response_json($data, 200);
     }
 }
+

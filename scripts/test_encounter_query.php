@@ -25,3 +25,4 @@ $sql4 = "SELECT gyn.*, p.patient_name, p.national_id, p.upi, p.gender, s.name as
 $res4 = $m->query($sql4);
 if (!$res4) echo "Gynae Error: " . $m->error . "\n";
 else echo "Gynae Rows: " . $res4->num_rows . "\n";
+

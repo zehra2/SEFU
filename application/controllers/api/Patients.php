@@ -234,3 +234,4 @@ class Patients extends API_Controller
         );
     }
 }
+

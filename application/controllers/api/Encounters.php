@@ -253,6 +253,11 @@ class Encounters extends API_Controller
                 'temperature' => $row['temperature']
             ),
             'symptoms'     => $row['symptoms'],
+            'diagnosis'    => array(
+                'icd10_code'   => !empty($row['icd10_code']) ? $row['icd10_code'] : null,
+                'system'       => 'http://hl7.org/fhir/sid/icd-10',
+                'description'  => !empty($row['note']) ? $row['note'] : null
+            ),
             'clinicalNote' => $row['note']
         );
     }
@@ -279,6 +284,11 @@ class Encounters extends API_Controller
             'painLocation' => $row['pain_location'],
             'sessionDurationMinutes' => intval($row['session_duration']),
             'assessment'   => $row['physiotherapy_assessment'],
+            'diagnosis'    => array(
+                'icd10_code'   => !empty($row['icd10_code']) ? $row['icd10_code'] : null,
+                'system'       => 'http://hl7.org/fhir/sid/icd-10',
+                'description'  => $row['diagnosis']
+            ),
             'treatment'    => $row['treatment_exercise']
         );
     }
@@ -308,7 +318,11 @@ class Encounters extends API_Controller
             ),
             'growthMonitoring'    => $row['growth_monitoring'],
             'immunizationDetails' => $row['immunization_details'],
-            'diagnosis'           => $row['diagnosis'],
+            'diagnosis'           => array(
+                'icd10_code'   => !empty($row['icd10_code']) ? $row['icd10_code'] : null,
+                'system'       => 'http://hl7.org/fhir/sid/icd-10',
+                'description'  => $row['diagnosis']
+            ),
             'prescription'        => $row['prescription_treatment']
         );
     }
@@ -335,7 +349,11 @@ class Encounters extends API_Controller
             'pregnancyStatus'  => $row['pregnancy_status'],
             'pregnancyHistory' => $row['pregnancy_history'],
             'clinicalNotes'    => $row['clinical_notes'],
-            'diagnosis'        => $row['diagnosis'],
+            'diagnosis'        => array(
+                'icd10_code'   => !empty($row['icd10_code']) ? $row['icd10_code'] : null,
+                'system'       => 'http://hl7.org/fhir/sid/icd-10',
+                'description'  => $row['diagnosis']
+            ),
             'prescription'     => $row['prescription_treatment']
         );
     }

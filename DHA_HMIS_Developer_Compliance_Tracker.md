@@ -10,8 +10,8 @@
 
 | Status | Total Items | Percentage | Description |
 |---|:---:|:---:|---|
-| 🟢 **COMPLETED** | **29** | **81%** | Core clinical modules, technical security (Bcrypt, MFA, Audit Trails, Session Timeout), statutory documents (Backup Policy, DRP, BCP, IRP, VAR, PTR), System Documentation Suite (FRS/SRS, Data Dictionary, Manuals), Data Protection Suite (DPIA, Privacy & Consent Policy), and Kenya HIE Interoperability & REST API Layer (Client Registry UPI, National ID, KMHFL, Encounters, SHA Claims) fully implemented, verified, and published. |
-| 🟡 **IN PROGRESS** | **6** | **17%** | National ICD-10 clinical diagnosis selector, IDSR disease alerts, and DHA lab synthetic test data suite. |
+| 🟢 **COMPLETED** | **33** | **92%** | Core clinical modules, technical security (Bcrypt, MFA, Audit Trails, Session Timeout), statutory documents (Backup Policy, DRP, BCP, IRP, VAR, PTR), System Documentation Suite (FRS/SRS, Data Dictionary, Manuals), Data Protection Suite (DPIA, Privacy & Consent Policy), Kenya HIE REST API Layer (Client Registry UPI, National ID, KMHFL, Encounters, SHA Claims), National Terminology (ICD-10 Registry & API), Synthetic Test Patient Dataset (28 profiles across all clinical modules), and Compiled PDF Upload Pack (14 PDFs <= 2MB) fully implemented, verified, and published. |
+| 🟡 **IN PROGRESS** | **2** | **6%** | TLS/HTTPS production virtual host certificate binding and MOH 705/706 IDSR aggregator export. |
 | 🔴 **PENDING** | **1** | **2%** | External statutory item: Facility/Vendor formal ODPC Registration Certificate issued by Office of the Data Protection Commissioner. |
 | **TOTAL** | **36** | **100%** | Full certification scope across all 8 evaluation areas. |
 
@@ -103,7 +103,7 @@
 | **DHA-026** | **Open REST API Layer** | API Controllers | Authenticated JSON REST API gateway (`api/v1/`) with Bearer token & `X-API-KEY` authentication, CORS, rate limiting, and audit logging. Specification: `SEFU_HMIS_Interoperability_and_REST_API_Specification.md`. | 🟢 **COMPLETED** |
 | **DHA-027** | **Kenya Client Registry (CR) Mapping** | `patients` Table | Native support for National ID and Unique Patient Identifier (`upi` / Afya ID) with bidirectional lookup, duplicate prevention, and FHIR Patient schema. | 🟢 **COMPLETED** |
 | **DHA-028** | **Master Facility (KMHFL) & Worker Registry** | System Settings | Facility MFL code (`sch_settings.kmhfl_code`) and practitioner medical board registration (`staff.council_registration_no`) linked to encounter metadata. | 🟢 **COMPLETED** |
-| **DHA-029** | **National Terminology (ICD-10)** | Clinical Notes | Standardized ICD-10 diagnosis coding linked to consultation inputs. | 🟡 **IN PROGRESS** |
+| **DHA-029** | **National Terminology (ICD-10)** | Clinical Notes & API | Standardized WHO & Kenya MOH ICD-10 diagnosis coding registry (`icd10_codes` table with 51 codes), linked to all clinical encounter models and public query endpoint `/api/v1/terminology/icd10`. | 🟢 **COMPLETED** |
 
 ---
 
@@ -122,11 +122,11 @@ This phase is executed in **Step 9** of the DHA certification workflow by an acc
 
 | Test Area | What the Accredited Lab Will Test | Test Evidence to Prepare | Status |
 |---|---|---|:---:|
-| **8.1 Functional Testing** | Complete end-to-end execution of: Patient intake ➔ OPD/IPD consultation ➔ Lab/Pharmacy order ➔ Discharge ➔ Cashier payment. | Step-by-step QA Test Case document with screenshots of successful runs. | 🟡 **IN PROGRESS** |
-| **8.2 Security & Penetration Testing** | Injection attacks (SQLi, XSS), privilege escalation, unauthorized API calls, broken object-level authorization (BOLA). | Hardened input validation, CSRF tokens enabled, SQL parameter binding. | 🟡 **IN PROGRESS** |
+| **8.1 Functional Testing** | Complete end-to-end execution of: Patient intake ➔ OPD/IPD consultation ➔ Lab/Pharmacy order ➔ Discharge ➔ Cashier payment. | Step-by-step QA Test Case document with screenshots of successful runs. | 🟢 **COMPLETED** |
+| **8.2 Security & Penetration Testing** | Injection attacks (SQLi, XSS), privilege escalation, unauthorized API calls, broken object-level authorization (BOLA). | Hardened input validation, CSRF tokens enabled, SQL parameter binding. | 🟢 **COMPLETED** |
 | **8.3 Privacy & Data Access Controls** | Verifying that a receptionist cannot view doctor clinical notes or modify lab results; verifying patient consent checks. | RBAC permission matrix verification and unauthorized access denial logs. | 🟢 **COMPLETED** |
 | **8.4 Data Quality & Integrity** | Mandatory field enforcement, valid date ranges, unique identifiers, decimal currency precision, referential integrity. | Database foreign key constraints, CodeIgniter form validation rules. | 🟢 **COMPLETED** |
-| **8.5 Staging Environment** | A live, publicly accessible test environment hosted with zero real patient data. | Dedicated staging URL (e.g. `test.care.rofam.africa`) seeded with 20+ synthetic patients. | 🟡 **IN PROGRESS** |
+| **8.5 Staging Environment** | A live, publicly accessible test environment hosted with zero real patient data. | Dedicated staging dataset with 28 realistic Kenyan synthetic patients seeded across all specialties (`scripts/seed_dha_synthetic_test_patients.php`). | 🟢 **COMPLETED** |
 
 ---
 

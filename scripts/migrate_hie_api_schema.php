@@ -111,3 +111,4 @@ if ($check_sha && $check_sha->num_rows == 0) {
 }
 
 echo "Migration finished successfully.\n";
+

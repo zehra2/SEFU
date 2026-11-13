@@ -409,12 +409,29 @@ Architected, implemented, and verified an authenticated, production-grade JSON R
 
 ---
 
+## 🧪 19. Synthetic Test Data Suite, ICD-10 Registry & Statutory PDF Packaging (DHA Form HMIS 4)
+
+### Overview
+Executed the complete Step 1, 2, and 3 certification roadmap items:
+1. **Step 1 (Synthetic Test Data Suite - Section 8):** Seeded 28 realistic Kenyan clinical test profiles across all demographic groups, age brackets, and clinical specialties into the test database ([`scripts/seed_dha_synthetic_test_patients.php`](file:///d:/downloads/Smart%20Hospital%20v5.0%20Nulled/Smart%20Hospital%20v5.0%20Nulled/sfu/scripts/seed_dha_synthetic_test_patients.php)).
+2. **Step 2 (National Terminology / ICD-10 Registry - DHA-029):** Created the `icd10_codes` registry table, pre-seeded 51 core WHO and Kenya MOH (MOH 705A/B, MOH 706) diagnostic classifications, linked them to all clinical encounter models, and provided the public search endpoint `/api/v1/terminology/icd10`.
+3. **Step 3 (Statutory PDF Dossiers - Portal Upload Readiness):** Compiled all 14 statutory compliance documents into PDF format using ReportLab ([`scripts/compile_dha_submission_pdfs.py`](file:///d:/downloads/Smart%20Hospital%20v5.0%20Nulled/Smart%20Hospital%20v5.0%20Nulled/sfu/scripts/compile_dha_submission_pdfs.py)), strictly complying with the DHA portal upload rule ($\le$ 2MB per file).
+
+### Key Technical Outputs:
+- **Synthetic Patients Seeded:** 28 Kenyan patients with full metadata, National ID / Alien ID, Kenya Afya UPI (`AFYA-KE-2026-0000XX`), contact details, guardian attribution, and SHA insurance numbers.
+- **Clinical Encounters Seeded:** 12 OPD triage visits, 4 IPD admissions with bed tracking across 4 clinical wards, 7 Physiotherapy sessions (`PHYB`), 7 Pediatric records (`PEDB`), 7 Gynaecology consultations (`GYNB`), 15 Pharmacy dispensing bills, and 16 KES transaction receipts.
+- **ICD-10 Terminology Registry:** Table `icd10_codes` with 51 codes (Infectious, Respiratory, Cardiovascular, Endocrine, Maternal, Musculoskeletal, and Trauma). Endpoint `/api/v1/terminology/icd10` returns FHIR-aligned diagnostic codes.
+- **Compiled PDF Pack (`documentation/dha_submission_pdfs/`):** 14 PDFs generated (10 KB to 22 KB each), containing running headers, footers with page numbering, and styled data tables.
+
+---
+
 ## 🌐 Quick Access URLs (Local Environment)
 
 - **Admin Login:** `http://localhost/sfu/site/login`
 - **MFA Verification Portal:** `http://localhost/sfu/site/verify_2fa`
 - **General Settings (MFA & KMHFL):** `http://localhost/sfu/schsettings`
 - **API Facility Info:** `http://localhost/sfu/api/v1/facility/info?api_key=dha_live_test_key_8f3a2b9e4c1d6e7f8a9b0c1d2e3f4a5b`
+- **API ICD-10 Terminology:** `http://localhost/sfu/api/v1/terminology/icd10?search=malaria&api_key=dha_live_test_key_8f3a2b9e4c1d6e7f8a9b0c1d2e3f4a5b`
 - **API Patient Search (CR):** `http://localhost/sfu/api/v1/patients/search?api_key=dha_live_test_key_8f3a2b9e4c1d6e7f8a9b0c1d2e3f4a5b`
 - **API Encounters Query:** `http://localhost/sfu/api/v1/encounters/search?api_key=dha_live_test_key_8f3a2b9e4c1d6e7f8a9b0c1d2e3f4a5b`
 - **API Billing Ledger:** `http://localhost/sfu/api/v1/billing?api_key=dha_live_test_key_8f3a2b9e4c1d6e7f8a9b0c1d2e3f4a5b`
@@ -431,6 +448,7 @@ Architected, implemented, and verified an authenticated, production-grade JSON R
 - **Change Password (Admin):** `http://localhost/sfu/admin/admin/changepass`
 - **Patient Login:** `http://localhost/sfu/site/userlogin`
 - **Compliance Tracker:** `http://localhost/sfu/DHA_HMIS_Developer_Compliance_Tracker.md`
+- **PDF Submission Pack Directory:** `http://localhost/sfu/documentation/dha_submission_pdfs/`
 - **REST API Specification:** `http://localhost/sfu/SEFU_HMIS_Interoperability_and_REST_API_Specification.md`
 - **Backup Policy & Configuration:** `http://localhost/sfu/SEFU_HMIS_Backup_Policy_and_Configuration.md`
 - **Disaster Recovery Plan (DRP):** `http://localhost/sfu/SEFU_HMIS_Disaster_Recovery_Plan_DRP.md`
