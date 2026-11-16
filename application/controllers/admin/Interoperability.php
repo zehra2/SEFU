@@ -34,10 +34,10 @@ class Interoperability extends Admin_Controller
         $facilityName = !empty($setting['name']) ? $setting['name'] : 'SEFU Health Hospital';
 
         // 2. Metrics & Counts
-        $totalSyntheticPatients = $this->db->where('is_synthetic_conformance_data', 1)->count_all_results('patients');
+        $totalSyntheticPatients = $this->db->where("upi IS NOT NULL AND upi !=", "")->count_all_results('patients');
         $totalActiveClients = $this->db->where('is_active', 1)->count_all_results('api_clients');
         $totalApiInvocations = $this->db->where('user_type', 'API_CLIENT')->count_all_results('logs');
-        $totalIcdCodes = $this->db->count_all('terminology_icd10');
+        $totalIcdCodes = $this->db->count_all('icd10_codes');
 
         // 3. API Clients list
         $clients = $this->db->order_by('id', 'ASC')->get('api_clients')->result_array();
