@@ -246,8 +246,10 @@ foreach ($ipdCases as $ipd) {
 
     $check = $mysqli->query("SELECT id FROM ipd_details WHERE patient_id = $pid");
     if ($check && $check->num_rows == 0) {
-        $mysqli->query("INSERT INTO ipd_details (patient_id, bed, bed_group_id, case_type, symptoms, cons_doctor, date, discharged, generated_by, created_at)
-        VALUES ($pid, $bed, 1, '$case', '$sym', $doc, '$date', 'no', 1, '$date')");
+        $mysqli->query("INSERT INTO case_references (id) VALUES (null)");
+        $case_ref_id = $mysqli->insert_id;
+        $mysqli->query("INSERT INTO ipd_details (patient_id, case_reference_id, bed, bed_group_id, case_type, symptoms, cons_doctor, date, discharged, generated_by, created_at)
+        VALUES ($pid, $case_ref_id, $bed, 1, '$case', '$sym', $doc, '$date', 'no', 1, '$date')");
     }
 }
 echo "  -> 4 Inpatient Admissions with Active Bed Tracking created.\n";
