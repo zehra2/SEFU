@@ -70,3 +70,4 @@ class Terminology extends API_Controller
         ), 200);
     }
 }
+

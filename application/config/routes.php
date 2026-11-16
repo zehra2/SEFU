@@ -30,6 +30,11 @@ $route['read/(:any)'] = 'welcome/read/$1';
 $route['frontend']    = 'welcome';
 
 //======= Kenya HIE / DHA REST API v1 Routes ==========
+$route['api/v1/docs']                       = 'api/docs/index';
+$route['api/v1/openapi.json']               = 'api/docs/openapi';
+$route['api/docs']                          = 'api/docs/index';
+$route['admin/interoperability']            = 'admin/interoperability/index';
+$route['admin/interoperability/(:any)']     = 'admin/interoperability/$1';
 $route['api/v1/facility/info']              = 'api/facility/info';
 $route['api/v1/terminology/icd10']          = 'api/terminology/icd10';
 $route['api/v1/patients/search']            = 'api/patients/search';

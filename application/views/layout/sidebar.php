@@ -17,6 +17,14 @@
                 <a href="<?php echo base_url(); ?>admin/admin/dashboard">
                    <i class="fas fa-television"></i> <span> <?php echo $this->lang->line('dashboard'); ?></span>
                </a>
+           </li>
+            <li class="treeview <?php echo set_Topmenu('interoperability'); ?>">
+                <a href="<?php echo base_url('admin/interoperability'); ?>">
+                   <i class="fas fa-network-wired" style="color: #00e676;"></i> <span> National HIE Hub</span>
+                   <span class="pull-right-container">
+                       <small class="label pull-right bg-green" style="font-size: 10px; padding: 2px 6px; border-radius: 3px;">DHA</small>
+                   </span>
+               </a>
            </li>          				
 
             <?php

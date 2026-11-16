@@ -425,9 +425,38 @@ Executed the complete Step 1, 2, and 3 certification roadmap items:
 
 ---
 
+## 🌐 20. Interactive API Explorer, Swagger / OpenAPI 3.0 & Admin National HIE Hub (DHA Section G & Conformance Test-Bench)
+
+### Overview
+Implemented the Interactive API Documentation, OpenAPI 3.0 specification, live Fast-Tester workbench, and dedicated Admin National HIE Interoperability Hub. This provides Kenya Digital Health Agency (DHA) evaluators and external integration engineers with an instant browser-based testing console (no curl or Postman required) and full cryptographic token management.
+
+### Key Technical Deliverables:
+1. **Interactive API Explorer & Swagger UI (`application/views/api/docs.php` & `application/controllers/api/Docs.php`):**
+   - **Route:** `http://localhost/sfu/api/v1/docs` and `http://localhost/sfu/api/docs`.
+   - **Dual-Mode Architecture:**
+     - **Tab 1: Interactive Fast-Tester:** Evaluator-friendly visual workbench with pre-configured endpoints, preset parameters (e.g. UPI `AFYA-KE-2026-000001`, National ID `12345678`, query `malaria`), one-click "Execute Request" button, real-time HTTP response code pill (`200 OK`, `401 Unauthorized`), round-trip latency timer (ms), and JSON copy button.
+     - **Tab 2: Official Swagger UI 5.x:** Embedded Swagger UI rendering the full OpenAPI 3.0 schema directly from `/api/v1/openapi.json`.
+   - **Global Authentication Toolbar:** Sticky header with pre-loaded DHA live test token (`dha_live_test_key_8f3a2b9e4c1d6e7f8a9b0c1d2e3f4a5b`), "Reset Valid Key" button, and "Simulate Invalid Key" button for testing HTTP 401 rejection.
+2. **OpenAPI 3.0 Specification Engine (`GET /api/v1/openapi.json`):**
+   - Serves complete, dynamic OpenAPI 3.0 schema documenting all 8 core HIE endpoints with JSON request schemas, response codes, and parameter types.
+3. **Dedicated Admin "National HIE Hub" (`application/controllers/admin/Interoperability.php` & `application/views/admin/interoperability/index.php`):**
+   - **Route:** `http://localhost/sfu/admin/interoperability`.
+   - **Metrics Dashboard:** 4 live metric cards displaying KMHFL Facility ID (`12345`), Kenya Client Registry Seeded Patients (`28`), Active Integration Gateways (`2`), and Total API Invocations Audited.
+   - **Token Management Console:** Table of registered external API clients with masked API tokens, show/hide eye toggle, copy-to-clipboard button, allowed endpoint scopes, rate limit counters, and instant actions to revoke/activate or regenerate tokens.
+   - **Registration Modal:** Form to issue new API tokens for external institutions (e.g. NHIF/SHA, National Public Health Labs, County Health Executives).
+   - **External Audit Trail Table:** Live inspection of API requests logged to `logs` table showing timestamp, calling client, action tag, endpoint message, remote IP address, and conformance status.
+   - **Embedded API Explorer Tab:** Integrated iframe view enabling hospital administrators to test endpoints directly inside the AdminLTE back office.
+4. **Sidebar Navigation Integration (`application/views/layout/sidebar.php`):**
+   - Added prominent "National HIE Hub" menu item under Dashboard with icon `fas fa-network-wired` and a distinct green `DHA` badge linking directly to `admin/interoperability`.
+
+---
+
 ## 🌐 Quick Access URLs (Local Environment)
 
 - **Admin Login:** `http://localhost/sfu/site/login`
+- **National HIE Hub (Admin Console):** `http://localhost/sfu/admin/interoperability`
+- **Interactive API Explorer & Tester:** `http://localhost/sfu/api/v1/docs` (or `http://localhost/sfu/api/docs`)
+- **OpenAPI 3.0 Specification:** `http://localhost/sfu/api/v1/openapi.json`
 - **MFA Verification Portal:** `http://localhost/sfu/site/verify_2fa`
 - **General Settings (MFA & KMHFL):** `http://localhost/sfu/schsettings`
 - **API Facility Info:** `http://localhost/sfu/api/v1/facility/info?api_key=dha_live_test_key_8f3a2b9e4c1d6e7f8a9b0c1d2e3f4a5b`

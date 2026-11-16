@@ -100,7 +100,7 @@
 
 | Task ID | Item / Feature | Technical Scope | Verification Evidence for DHA | Developer Status |
 |:---:|---|---|---|:---:|
-| **DHA-026** | **Open REST API Layer** | API Controllers | Authenticated JSON REST API gateway (`api/v1/`) with Bearer token & `X-API-KEY` authentication, CORS, rate limiting, and audit logging. Specification: `SEFU_HMIS_Interoperability_and_REST_API_Specification.md`. | 🟢 **COMPLETED** |
+| **DHA-026** | **Open REST API Layer & Interactive API Explorer** | API Controllers | Authenticated JSON REST API gateway (`api/v1/`) with Bearer token & `X-API-KEY` authentication, CORS, rate limiting, and audit logging. Includes Interactive API Explorer & Tester (`api/v1/docs`), OpenAPI 3.0 specification (`api/v1/openapi.json`), and Admin National HIE Hub (`admin/interoperability`). Specification: `SEFU_HMIS_Interoperability_and_REST_API_Specification.md`. | 🟢 **COMPLETED** |
 | **DHA-027** | **Kenya Client Registry (CR) Mapping** | `patients` Table | Native support for National ID and Unique Patient Identifier (`upi` / Afya ID) with bidirectional lookup, duplicate prevention, and FHIR Patient schema. | 🟢 **COMPLETED** |
 | **DHA-028** | **Master Facility (KMHFL) & Worker Registry** | System Settings | Facility MFL code (`sch_settings.kmhfl_code`) and practitioner medical board registration (`staff.council_registration_no`) linked to encounter metadata. | 🟢 **COMPLETED** |
 | **DHA-029** | **National Terminology (ICD-10)** | Clinical Notes & API | Standardized WHO & Kenya MOH ICD-10 diagnosis coding registry (`icd10_codes` table with 51 codes), linked to all clinical encounter models and public query endpoint `/api/v1/terminology/icd10`. | 🟢 **COMPLETED** |

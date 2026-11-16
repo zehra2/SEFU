@@ -381,3 +381,4 @@ print("\n" + "="*60)
 print(f"COMPILATION COMPLETE: {success_count} / {len(dossiers)} PDFs GENERATED")
 print(f"Target Directory: {os.path.abspath(output_dir)}")
 print("="*60)
+
