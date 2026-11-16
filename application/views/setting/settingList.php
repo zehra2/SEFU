@@ -254,75 +254,8 @@ $genderList = $this->customlib->getGender();
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="settinghr"></div>
-                                        <div class="relative">
-                                            <h4 class="session-head"><?php echo $this->lang->line('mobile_app'); ?> <?php if ($app_response) { echo "<small class=' alert-success'>(".$this->lang->line('android_app_purchase_code_already_registered').")</small>"; } ?></h4>
-
-                                            <?php if (!$app_response) {
-                                                ?>
-                                                <button type="button" class="btn btn-info btn-sm impbtntitle3" data-toggle="modal" data-target="#andappModal"><?php echo $this->lang->line('register_your_android_app')?></button>
-                                                <?php
-                                            }
-                                            ?>
-                                        </div>
-                                    </div><!--./col-md-12-->
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                        <div class="form-group row">
-                                            <label class="col-sm-2"><?php echo $this->lang->line('mobile_app_api_url') ?></label>
-                                            <div class="col-sm-10">
-                                                <input type="text" name="mobile_api_url" id="mobile_api_url" class="form-control" value="<?php echo $settinglist->mobile_api_url; ?>">
-                                                <span class="text-danger"><?php echo form_error('mobile_api_url'); ?></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                        <div class="form-group row">
-                                            <label class="col-sm-5"><?php echo $this->lang->line('mobile_app_primary_color_code'); ?></label>
-                                            <div class="col-sm-7">
-                                                <input type="text" name="app_primary_color_code" id="app_primary_color_code" class="form-control" value="<?php echo $settinglist->app_primary_color_code; ?>">
-                                                <span class="text-danger"><?php echo form_error('app_primary_color_code'); ?></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group row">
-                                            <label class="col-sm-6"><?php echo $this->lang->line('mobile_app_secondary_color_code'); ?></label>
-                                            <div class="col-sm-6">
-                                                <input type="text" name="app_secondary_color_code" id="app_secondary_color_code" class="form-control" value="<?php echo $settinglist->app_secondary_color_code; ?>">
-                                                <span class="text-danger"><?php echo form_error('app_secondary_color_code'); ?></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    </div>
-                                    <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="form-group row">
-                                             <label class="col-sm-2"> <?php echo $this->lang->line('mobile_app_logo'); ?></label>
-                                             <?php
-						                        if ($settinglist->app_logo == "") {
-						                            ?>
-						                            <img src="<?php echo base_url('uploads/hospital_content/logo/images.png'.img_time()) ?>" alt="" style="height: 15px;">
-						                            <?php
-						                        } else {
-						                            ?>
-						                            <img src="<?php echo base_url('uploads/hospital_content/logo/'.$settinglist->app_logo.img_time()) ?>" alt="" style="height: 15px;margin-top: 5px;">
-						                            <?php
-						                        }
-						                        ?>
-                                                <?php if ($this->rbac->hasPrivilege('general_setting', 'can_edit')) { ?>
-					                            &nbsp;<a href="#" role="button" class="btn btn-primary btn-sm upload_applogo" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Processing"><i class="fa fa-picture-o"></i> <?php echo $this->lang->line('edit_app_logo'); ?></a>
-					                        <?php } ?>
-                                        </div>
-                                    </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="settinghr"></div>
-                                                <div class="relative">     
-                                                    <h4 class="session-head"><?php echo $this->lang->line('miscellaneous'); ?></h4>
+                                        <div class="relative">     
+                                            <h4 class="session-head"><?php echo $this->lang->line('miscellaneous'); ?></h4>
                                                 </div>
                                         </div><!--./col-md-12-->
                                     </div>
@@ -532,36 +465,6 @@ $genderList = $this->customlib->getGender();
                     <div class="box__uploading"><?php echo $this->lang->line('uploading'); ?>&hellip;</div>
                 </form>
             </div>
-        </div>
-    </div>
-</div>
-
-<div id="andappModal" class="modal fade">
-    <div class="modal-dialog">
-        <div class="modal-content mx-2">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title"><?php echo $this->lang->line('register_your_android_app_purchase_code'); ?></h4>
-            </div>
-            <form action="<?php echo site_url('admin/admin/updateandappCode') ?>" method="POST" id="andapp_code">
-                <div class="modal-body andapp_modal-body">
-                    <div class="error_message">
-                    </div>
-                    <div class="form-group">
-                        <label class="ainline"><span><?php echo $this->lang->line('envato_market_purchase_code_for_smart_hospital_android_app'); ?> ( <a target="_blank" href="https://help.market.envato.com/hc/en-us/articles/202822600-Where-Is-My-Purchase-Code-"> <?php echo $this->lang->line('how_to_find_it'); ?></a> )</span></label>
-                        <input type="text" class="form-control" id="input-app-envato_market_purchase_code" name="app-envato_market_purchase_code">
-                        <div id="error" class="input-error text text-danger"></div>
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputEmail1"><?php echo $this->lang->line('your_email_registered_with_envato'); ?></label>
-                        <input type="text" class="form-control" id="input-app-email" name="app-email">
-                        <div id="error" class="input-error text text-danger"></div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-info" data-loading-text="<i class='fa fa-spinner fa-spin '></i> Saving..."><?php echo $this->lang->line('save'); ?></button>
-                </div>
-            </form>
         </div>
     </div>
 </div>

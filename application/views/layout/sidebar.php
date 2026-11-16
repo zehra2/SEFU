@@ -297,18 +297,7 @@
                 }
             ?>
 			
-            <?php
-                if($this->module_lib->hasActive('referral')){
-                    if ($this->rbac->hasPrivilege('referral_payment', 'can_view')) {  ?>
-                        <li class="treeview <?php echo set_Topmenu('referral_payment'); ?>">
-                            <a href="<?php echo base_url(); ?>admin/referral/payment">
-                                <i class="fas fa-users"></i> <span><?php echo $this->lang->line('referral'); ?></span>
-                            </a>
-                        </li>
-            <?php
-                    }
-                }
-            ?>
+
             <?php
                 if ($this->module_lib->hasActive('tpa_management')) {
                     if ($this->rbac->hasPrivilege('organisation', 'can_view')) {
@@ -529,8 +518,7 @@
                         ($this->rbac->hasPrivilege('all_transaction_report', 'can_view')) ||
                         ($this->rbac->hasPrivilege('patient_visit_report', 'can_view')) ||
                         ($this->rbac->hasPrivilege('patient_bill_report', 'can_view')) ||                         
-                        ($this->rbac->hasPrivilege('component_issue_report', 'can_view')) ||
-                        ($this->rbac->hasPrivilege('referral_report', 'can_view'))) {
+                        ($this->rbac->hasPrivilege('component_issue_report', 'can_view'))) {
                         ?> 
                         <li class="treeview <?php echo set_Topmenu('Reports'); ?>">
                             <a href="#">
@@ -538,7 +526,7 @@
                             </a>
                             <ul class="treeview-menu">                               
                                 
-                            <?php if (($this->rbac->hasPrivilege('daily_transaction_report', 'can_view')) || ($this->rbac->hasPrivilege('all_transaction_report', 'can_view')) || ($this->rbac->hasPrivilege('income_report', 'can_view')) || ($this->rbac->hasPrivilege('income_group_report', 'can_view')) || ($this->rbac->hasPrivilege('expense_report', 'can_view')) || ($this->rbac->hasPrivilege('expense_group_report', 'can_view')) || ($this->rbac->hasPrivilege('patient_bill_report', 'can_view')) || ($this->rbac->hasPrivilege('referral_report', 'can_view'))) {?>
+                            <?php if (($this->rbac->hasPrivilege('daily_transaction_report', 'can_view')) || ($this->rbac->hasPrivilege('all_transaction_report', 'can_view')) || ($this->rbac->hasPrivilege('income_report', 'can_view')) || ($this->rbac->hasPrivilege('income_group_report', 'can_view')) || ($this->rbac->hasPrivilege('expense_report', 'can_view')) || ($this->rbac->hasPrivilege('expense_group_report', 'can_view')) || ($this->rbac->hasPrivilege('patient_bill_report', 'can_view'))) {?>
 							
                                 <li class="<?php echo set_Submenu('reports/finance'); ?>"><a href="<?php echo base_url(); ?>admin/report/finance"><i class="fas fa-angle-right"></i> <?php echo $this->lang->line("finance"); ?></a></li> 
                                 
@@ -788,11 +776,7 @@
                                             <?php
 					} ?>
 				
-                        <?php if($this->module_lib->hasActive('referral')){
-                            if ($this->rbac->hasPrivilege('referral_commission', 'can_view') || $this->rbac->hasPrivilege('referral_category', 'can_view')) {  ?>
-                            <li class="<?php echo set_Submenu('admin/referral/commission'); ?>"><a href="<?php echo base_url(); ?>admin/referral/commission"><i class="fas fa-angle-right"></i> <?php echo $this->lang->line('referral'); ?></a></li>
-                        <?php } } 
-						
+                        <?php 
 						if ($this->module_lib->hasActive('appointment')) {if(($this->rbac->hasPrivilege('online_appointment_slot','can_view')) || ($this->rbac->hasPrivilege('online_appointment_doctor_shift','can_view')) || ($this->rbac->hasPrivilege('online_appointment_shift','can_view'))){  ?>
 
                             <li class="<?php echo set_Submenu('admin/onlineappointment'); ?>"><a href="<?php echo base_url(); ?>admin/onlineappointment/"><i class="fas fa-angle-right"></i> <?php echo $this->lang->line('appointment'); ?></a></li>

@@ -44,9 +44,6 @@
             if ($this->rbac->hasPrivilege('superadmin','')) { ?>
                 <li class="<?php echo set_Innermenu('admin/module'); ?>"><a class="<?php echo set_Innermenu('admin/module'); ?>" href="<?php echo base_url(); ?>admin/module"><?php echo $this->lang->line('modules'); ?></a></li>
             <?php } ?>
-			<?php  if ($this->rbac->hasPrivilege('superadmin','')) {    ?> 
-				<li class="<?php echo set_Innermenu('admin/updater/index'); ?>"><a class="<?php echo set_Innermenu('admin/updater/index'); ?>" href="<?php echo base_url(); ?>admin/updater"><?php echo $this->lang->line('system_update'); ?></a></li>                      
-			<?php } ?>
         </ul>
     </div>
 </div>
