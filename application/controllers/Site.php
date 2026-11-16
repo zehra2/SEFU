@@ -120,9 +120,10 @@ class Site extends Public_Controller
                             ],
                     );
 
-                    $mfa_enabled = isset($setting_result[0]['mfa_enabled']) ? (int)$setting_result[0]['mfa_enabled'] : 1;
+                    $global_mfa_enabled = isset($setting_result[0]['mfa_enabled']) ? (int)$setting_result[0]['mfa_enabled'] : 1;
+                    $user_mfa_enabled   = isset($result->mfa_enabled) ? (int)$result->mfa_enabled : 1;
 
-                    if ($mfa_enabled && !empty($result->email)) {
+                    if ($global_mfa_enabled && $user_mfa_enabled && !empty($result->email)) {
                         // Multi-Factor Authentication via Email OTP
                         $this->load->model('mfa_model');
                         $otp_code = $this->mfa_model->generate_otp($result->id, $result->email);

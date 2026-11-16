@@ -272,6 +272,26 @@ if ($staff["date_of_leaving"] != '0000-00-00' && ($staff['date_of_leaving'])) {
                                                 <td><?php echo $staff['email']; ?></td>
                                             </tr>
                                             <tr>
+                                                <td style="vertical-align: middle;">
+                                                    <strong><i class="fa fa-shield text-green"></i> 2-Factor Authentication (2FA)</strong>
+                                                </td>
+                                                <td>
+                                                    <div style="display: flex; align-items: center; flex-wrap: wrap; gap: 10px;">
+                                                        <label class="switch-mfa" style="position: relative; display: inline-block; width: 44px; height: 22px; margin: 0; vertical-align: middle;">
+                                                            <input type="checkbox" id="userMfaToggle" <?php echo (!isset($staff['mfa_enabled']) || $staff['mfa_enabled'] == 1) ? 'checked' : ''; ?> <?php echo ($userdata['id'] == $staff['id'] || $this->rbac->hasPrivilege('staff', 'can_edit')) ? '' : 'disabled'; ?>>
+                                                            <span class="slider-mfa"></span>
+                                                        </label>
+                                                        <span id="userMfaBadge" class="label <?php echo (!isset($staff['mfa_enabled']) || $staff['mfa_enabled'] == 1) ? 'label-success' : 'label-default'; ?>" style="font-size: 11px; padding: 4px 8px; border-radius: 3px; vertical-align: middle;">
+                                                            <?php echo (!isset($staff['mfa_enabled']) || $staff['mfa_enabled'] == 1) ? '<i class="fa fa-check"></i> Enabled (Email OTP)' : '<i class="fa fa-times"></i> Disabled'; ?>
+                                                        </span>
+                                                        <span id="userMfaSpinner" style="display: none; color: #00a65a; margin-left: 8px;"><i class="fa fa-spinner fa-spin"></i> Saving...</span>
+                                                    </div>
+                                                    <small class="text-muted" style="display: block; margin-top: 5px;">
+                                                        When enabled, signing in requires a 6-digit one-time code (OTP) sent to <strong><?php echo html_escape($staff['email']); ?></strong>. Toggle this switch anytime to enable or disable 2FA for this account.
+                                                    </small>
+                                                </td>
+                                            </tr>
+                                            <tr>
                                                 <td><?php echo $this->lang->line('staff_gender'); ?></td>
                                                 <td><?php echo $this->lang->line(strtolower($staff['gender'])); ?></td>
                                             </tr>
@@ -1438,4 +1458,107 @@ $('#myTimelineModal').on('hidden.bs.modal', function () {
             }
         });
     }     
+
+    // Per-User 2FA Toggle Handler
+    $(document).ready(function() {
+        $('#userMfaToggle').on('change', function() {
+            var isChecked = $(this).is(':checked');
+            var staffId = <?php echo (int)$staff['id']; ?>;
+            var badge = $('#userMfaBadge');
+            var spinner = $('#userMfaSpinner');
+            var csrfName = '<?php echo $this->security->get_csrf_token_name(); ?>';
+            var csrfHash = '<?php echo $this->security->get_csrf_hash(); ?>';
+
+            spinner.show();
+            var postData = {
+                staff_id: staffId,
+                mfa_enabled: isChecked ? 1 : 0
+            };
+            postData[csrfName] = csrfHash;
+
+            $.ajax({
+                url: '<?php echo base_url("admin/staff/toggle_mfa"); ?>',
+                type: 'POST',
+                data: postData,
+                dataType: 'json',
+                success: function(res) {
+                    spinner.hide();
+                    if (res.status === 'success') {
+                        if (res.mfa_enabled == 1) {
+                            badge.removeClass('label-default').addClass('label-success').html('<i class="fa fa-check"></i> Enabled (Email OTP)');
+                        } else {
+                            badge.removeClass('label-success').addClass('label-default').html('<i class="fa fa-times"></i> Disabled');
+                        }
+                        if (typeof successMsg === 'function') {
+                            successMsg(res.message);
+                        } else {
+                            alert(res.message);
+                        }
+                    } else {
+                        if (typeof errorMsg === 'function') {
+                            errorMsg(res.message || 'Failed to update 2FA setting.');
+                        } else {
+                            alert(res.message || 'Failed to update 2FA setting.');
+                        }
+                        $('#userMfaToggle').prop('checked', !isChecked);
+                    }
+                },
+                error: function() {
+                    spinner.hide();
+                    if (typeof errorMsg === 'function') {
+                        errorMsg('Network error while updating 2FA setting.');
+                    } else {
+                        alert('Network error while updating 2FA setting.');
+                    }
+                    $('#userMfaToggle').prop('checked', !isChecked);
+                }
+            });
+        });
+    });
 </script>
+
+<style>
+.switch-mfa {
+    position: relative;
+    display: inline-block;
+    width: 44px;
+    height: 22px;
+}
+.switch-mfa input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+.slider-mfa {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #d2d6de;
+    transition: .3s;
+    border-radius: 22px;
+}
+.slider-mfa:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: .3s;
+    border-radius: 50%;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+.switch-mfa input:checked + .slider-mfa {
+    background-color: #00a65a;
+}
+.switch-mfa input:focus + .slider-mfa {
+    box-shadow: 0 0 1px #00a65a;
+}
+.switch-mfa input:checked + .slider-mfa:before {
+    transform: translateX(22px);
+}
+</style>

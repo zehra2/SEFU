@@ -239,6 +239,12 @@ To satisfy Kenya Digital Health Agency (DHA) certification requirements for **In
    - **Superseding:** Generating a new OTP immediately invalidates any previously active codes.
 4. **Audit Trail Integration:**
    - Every OTP generation and successful verification is recorded in the `logs` table via `$this->log()`.
+5. **Per-User Profile 2FA Toggle Switch:**
+   - Added `staff.mfa_enabled` column (`TINYINT(1)`).
+   - Embedded an interactive, iOS-style toggle switch on every staff member's profile page (`admin/staff/profile/{id}`).
+   - Individual staff members and authorized administrators can toggle 2FA on or off at will for their specific account.
+   - When toggled, an AJAX endpoint (`admin/staff/toggle_mfa`) updates the user preference and immutably records an audit log entry (`STAFF_MFA_ENABLED` / `STAFF_MFA_DISABLED`).
+   - If disabled for a specific account, `site.php` allows direct login; if enabled, the Email OTP challenge is enforced.
 5. **Configurable Enforcement in System Settings:**
    - Super Admin can toggle MFA enforcement on/off in **General Settings** (`admin/schsettings`) via the `mfa_enabled` flag in `sch_settings`.
 6. **Localhost / Sandbox Testing:**

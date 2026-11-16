@@ -1244,6 +1244,42 @@ class Staff extends Admin_Controller
         echo json_encode($array);
     }
 
+    /**
+     * AJAX Endpoint: Toggle Multi-Factor Authentication (2FA Email OTP) for staff member
+     */
+    public function toggle_mfa()
+    {
+        $userdata = $this->customlib->getUserData();
+        $staff_id = $this->input->post('staff_id');
+        $mfa_state = $this->input->post('mfa_enabled');
+
+        if (empty($staff_id)) {
+            echo json_encode(array('status' => 'fail', 'message' => 'Invalid staff member identifier.'));
+            return;
+        }
+
+        // Access check: only the user themselves or staff manager/superadmin can toggle
+        if ($userdata['id'] != $staff_id && !$this->rbac->hasPrivilege('staff', 'can_edit')) {
+            echo json_encode(array('status' => 'fail', 'message' => 'Unauthorized action.'));
+            return;
+        }
+
+        $new_val = ($mfa_state == '1' || $mfa_state === 1) ? 1 : 0;
+        $this->db->where('id', $staff_id)->update('staff', array('mfa_enabled' => $new_val));
+
+        // Audit Log entry
+        $staff_record = $this->db->where('id', $staff_id)->get('staff')->row_array();
+        $staff_name = $staff_record ? ($staff_record['name'] . ' ' . $staff_record['surname']) : 'Staff #' . $staff_id;
+        $state_label = $new_val ? 'ENABLED' : 'DISABLED';
+        $this->customlib->setUserLog($userdata['username'], 'STAFF_MFA_' . $state_label);
+
+        echo json_encode(array(
+            'status'      => 'success',
+            'mfa_enabled' => $new_val,
+            'message'     => 'Two-Factor Authentication (Email OTP) has been ' . ($new_val ? 'enabled' : 'disabled') . ' for ' . html_escape($staff_name) . '.'
+        ));
+    }
+
     public function import()
     {  
         $data['field'] = array(
