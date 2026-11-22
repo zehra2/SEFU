@@ -23,7 +23,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'http://localhost/sfu/';
+if (isset($_SERVER['HTTP_HOST']) && strpos($_SERVER['HTTP_HOST'], 'care.rofam.africa') !== false) {
+    $config['base_url'] = 'https://care.rofam.africa/';
+} else {
+    $config['base_url'] = 'http://localhost/sfu/';
+}
 
 /*
 |--------------------------------------------------------------------------

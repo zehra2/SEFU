@@ -72,12 +72,14 @@
 $active_group = 'default';
 $query_builder = TRUE;
 
+$is_live = (isset($_SERVER['HTTP_HOST']) && strpos($_SERVER['HTTP_HOST'], 'care.rofam.africa') !== false);
+
 $db['default'] = array(
 	'dsn'	=> '',
 	'hostname' => 'localhost',
-	'username' => 'root',
-	'password' => '',
-	'database' => 'sfu',
+	'username' => $is_live ? 'rofamaf1_sfu' : 'root',
+	'password' => $is_live ? 'QrMHjNe5Rk3maTwM9NYj' : '',
+	'database' => $is_live ? 'rofamaf1_sfu' : 'sfu',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
