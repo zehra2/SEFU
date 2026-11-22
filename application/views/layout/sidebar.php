@@ -614,7 +614,8 @@
                             
                                 <li class="<?php echo set_Submenu('reports/patient'); ?>"><a href="<?php echo base_url(); ?>admin/report/patient"><i class="fas fa-angle-right"></i> <?php echo $this->lang->line("patient"); ?></a></li>
                                  
-                            <?php } ?> 
+                            <?php } ?>
+                                <li class="<?php echo set_Submenu('reports/diseasesurveillance'); ?>"><a href="<?php echo base_url(); ?>admin/diseasesurveillance"><i class="fas fa-angle-right"></i> MOH 705 &amp; IDSR Surveillance <span class="label bg-green pull-right">DHA</span></a></li>
                             </ul>
                         </li>
                 <?php

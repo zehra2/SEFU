@@ -231,4 +231,11 @@ class Report extends Admin_Controller
         $this->load->view('admin/report/patient', $data); 
         $this->load->view('layout/footer');
     }
+
+    /**
+     * Kenya MOH 705 & IDSR Disease Surveillance and Epidemic Alert Aggregator (DHA-025)
+     */
+    public function diseasesurveillance(){
+        redirect('admin/diseasesurveillance');
+    }
 }

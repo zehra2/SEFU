@@ -50,3 +50,9 @@ $route['api/v1/encounters']                 = 'api/encounters/index';
 $route['api/v1/billing/patient/(:any)']     = 'api/billing/patient/$1';
 $route['api/v1/billing/detail/(:any)']      = 'api/billing/patient/$1';
 $route['api/v1/billing']                    = 'api/billing/index';
+
+// Kenya MOH 705 & IDSR Disease Surveillance Routes (DHA-025)
+$route['admin/report/diseasesurveillance']        = 'admin/diseasesurveillance/index';
+$route['admin/diseasesurveillance']               = 'admin/diseasesurveillance/index';
+$route['admin/diseasesurveillance/export/(:any)'] = 'admin/diseasesurveillance/export/$1';
+

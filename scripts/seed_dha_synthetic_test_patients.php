@@ -307,8 +307,8 @@ foreach ($pediaCases as $ped) {
 
     $check = $mysqli->query("SELECT id FROM pediatric WHERE patient_id = $pid");
     if ($check && $check->num_rows == 0) {
-        $mysqli->query("INSERT INTO pediatric (bill_no, patient_id, pediatrician_id, temperature, weight, height, diagnosis, prescription_treatment, growth_monitoring, immunization_details, standard_charge, apply_charge, generated_by)
-        VALUES ('$bno', $pid, 3, '$temp', '$wt', '$ht', '$diag', '$pres', '$grow', '$immu', 800.00, 800.00, 1)");
+        $mysqli->query("INSERT INTO pediatric (bill_no, patient_id, pediatrician_id, consultation_date, temperature, weight, height, diagnosis, prescription_treatment, growth_monitoring, immunization_details, standard_charge, apply_charge, generated_by)
+        VALUES ('$bno', $pid, 3, '2026-11-13 10:30:00', '$temp', '$wt', '$ht', '$diag', '$pres', '$grow', '$immu', 800.00, 800.00, 1)");
     }
 }
 
@@ -334,8 +334,8 @@ foreach ($gynaeCases as $gyn) {
 
     $check = $mysqli->query("SELECT id FROM gynaecology WHERE patient_id = $pid");
     if ($check && $check->num_rows == 0) {
-        $mysqli->query("INSERT INTO gynaecology (bill_no, patient_id, gynaecologist_id, lmp, pregnancy_status, pregnancy_history, diagnosis, prescription_treatment, standard_charge, apply_charge, generated_by)
-        VALUES ('$bno', $pid, 4, '$lmp', '$pstat', '$obs', '$diag', '$pres', $chg, $chg, 1)");
+        $mysqli->query("INSERT INTO gynaecology (bill_no, patient_id, gynaecologist_id, consultation_date, lmp, pregnancy_status, pregnancy_history, diagnosis, prescription_treatment, standard_charge, apply_charge, generated_by)
+        VALUES ('$bno', $pid, 4, '2026-11-13 11:15:00', '$lmp', '$pstat', '$obs', '$diag', '$pres', $chg, $chg, 1)");
     }
 }
 

@@ -10,9 +10,9 @@
 
 | Status | Total Items | Percentage | Description |
 |---|:---:|:---:|---|
-| 🟢 **COMPLETED** | **33** | **92%** | Core clinical modules, technical security (Bcrypt, MFA, Audit Trails, Session Timeout), statutory documents (Backup Policy, DRP, BCP, IRP, VAR, PTR), System Documentation Suite (FRS/SRS, Data Dictionary, Manuals), Data Protection Suite (DPIA, Privacy & Consent Policy), Kenya HIE REST API Layer (Client Registry UPI, National ID, KMHFL, Encounters, SHA Claims), National Terminology (ICD-10 Registry & API), Synthetic Test Patient Dataset (28 profiles across all clinical modules), and Compiled PDF Upload Pack (14 PDFs <= 2MB) fully implemented, verified, and published. |
-| 🟡 **IN PROGRESS** | **2** | **6%** | TLS/HTTPS production virtual host certificate binding and MOH 705/706 IDSR aggregator export. |
-| 🔴 **PENDING** | **1** | **2%** | External statutory item: Facility/Vendor formal ODPC Registration Certificate issued by Office of the Data Protection Commissioner. |
+| 🟢 **COMPLETED** | **34** | **94%** | Core clinical modules, technical security (Bcrypt, MFA, Audit Trails, Session Timeout), statutory documents (Backup Policy, DRP, BCP, IRP, VAR, PTR), System Documentation Suite (FRS/SRS, Data Dictionary, Manuals), Data Protection Suite (DPIA, Privacy & Consent Policy), Kenya HIE REST API Layer (Client Registry UPI, National ID, KMHFL, Encounters, SHA Claims), National Terminology (ICD-10 Registry & API), Synthetic Test Patient Dataset (28 profiles across all clinical modules), Kenya MOH 705A/B Outpatient Morbidity Summaries & IDSR Early Warning Epidemic Alert Engine, and Compiled PDF Upload Pack (14 PDFs <= 2MB) fully implemented, verified, and published. (100% of software development scope completed). |
+| 🟡 **IN PROGRESS** | **1** | **3%** | TLS/HTTPS production virtual host certificate binding on live domain. |
+| 🔴 **PENDING** | **1** | **3%** | External statutory item: Facility/Vendor formal ODPC Registration Certificate issued by Office of the Data Protection Commissioner. |
 | **TOTAL** | **36** | **100%** | Full certification scope across all 8 evaluation areas. |
 
 ---
@@ -92,7 +92,7 @@
 | Task ID | Item / Feature | System Location | Verification Evidence for DHA | Developer Status |
 |:---:|---|---|---|:---:|
 | **DHA-024** | **Hospital Operational & Clinical Reports** | `admin/report` | Exported PDF/Excel reports of bed occupancy, patient visits, doctor performance, and departmental summaries. | 🟢 **COMPLETED** |
-| **DHA-025** | **Disease Surveillance & IDSR Alerts** | Custom Reporting | Aggregation of communicable and notifiable disease cases aligned with Kenya IDSR / MOH 705/706 indicators. | 🟡 **IN PROGRESS** |
+| **DHA-025** | **Disease Surveillance & IDSR Alerts** | `admin/diseasesurveillance` | Automated Kenya MOH 705A (Under 5 years) and MOH 705B (Over 5 years) outpatient morbidity summaries, live IDSR immediate outbreak alert engine with statutory threshold triggers (Cholera, Measles, Anthrax, Meningitis, Malaria, Typhoid), patient case drilldown, and statutory CSV/print exports. | 🟢 **COMPLETED** |
 
 ---
 

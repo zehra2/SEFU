@@ -457,9 +457,44 @@ Implemented the Interactive API Documentation, OpenAPI 3.0 specification, live F
 
 ---
 
+## 🏥 21. Kenya MOH 705 & IDSR Disease Surveillance and Epidemic Alert Hub (Item DHA-025)
+
+### Overview
+Engineered the complete statutory public health disease surveillance system adhering to Kenya Ministry of Health guidelines (MOH Form 705A, MOH Form 705B, and Integrated Disease Surveillance & Response 3rd Edition). This provides hospital public health officers and Kenya Digital Health Agency (DHA) evaluators with real-time epidemic early-warning alerts, outpatient morbidity aggregates by ICD-10, patient-level drilldowns, and one-click statutory CSV / print exports.
+
+### Key Technical Deliverables:
+1. **Unified Clinical Encounter Aggregator Model (`application/models/Disease_surveillance_model.php`):**
+   - Integrates across all clinical consultation modules: Outpatient (OPD `visit_details`), Inpatient (IPD `ipd_details`), Pediatric consultations (`pediatric`), Gynaecology (`gynaecology`), and Physiotherapy (`physiotherapy`).
+   - Automatically computes exact patient age at encounter: `TIMESTAMPDIFF(YEAR, patients.dob, encounter_date)`.
+   - Classifies encounters into statutory age cohorts:
+     - **MOH 705A (Under 5 Years):** Age < 5 years. Aggregates cases by ICD-10 diagnostic code, male/female distribution, and % morbidity.
+     - **MOH 705B (Over 5 Years):** Age >= 5 years. Aggregates adult/adolescent cases by ICD-10 diagnostic code, male/female distribution, and % morbidity.
+2. **IDSR Immediate Outbreak Alert & Early Warning Engine (`Disease_surveillance_model::get_idsr_alerts()`):**
+   - Automatically checks diagnostic encounters against Kenya notifiable diseases (`icd10_codes.is_notifiable = 1`).
+   - Implements statutory epidemic thresholds:
+     - **CRITICAL Outbreak Alerts (Threshold: >= 1 suspected case):** Cholera (`A00.9`), Measles (`B05.9`), Anthrax (`A22`), Meningitis (`A39`), Yellow Fever (`A95`). Mandates immediate 24-hour statutory notification to Sub-County Disease Surveillance Officer (SC-DSO) via Form MOH 502.
+     - **WARNING Epidemic Watch (Threshold: >= 1 case / cluster monitoring):** Falciparum Malaria (`B50.9`), Typhoid Fever (`A01.0`), Tuberculosis (`A15.0`), Dysentery (`A09.0`).
+   - Drilldown registry displaying affected patient name, patient ID, gender, age, contact telephone, home residence, encounter type, date/time, and clinical presentation notes.
+3. **Dedicated Admin Surveillance Controller & Statutory CSV Exporter (`application/controllers/admin/Diseasesurveillance.php`):**
+   - Routes: `admin/diseasesurveillance` and `admin/report/diseasesurveillance`.
+   - Date range filtering (`search_type`: This Month, Last Month, This Year, All Time, or custom Period).
+   - Generates official Kenyan Ministry of Health CSV downloads with statutory headers (`REPUBLIC OF KENYA - MINISTRY OF HEALTH - HEALTH INFORMATION SYSTEM`):
+     - `admin/diseasesurveillance/export/moh705a`: Form MOH 705A Under 5 Morbidity Summary.
+     - `admin/diseasesurveillance/export/moh705b`: Form MOH 705B Over 5 Morbidity Summary.
+     - `admin/diseasesurveillance/export/idsr`: IDSR Notifiable Epidemic Alerts.
+4. **Interactive Dashboard View (`application/views/admin/report/diseasesurveillance.php`):**
+   - 4 live KPI metric widgets: Under 5 Morbidity Cases, Over 5 Morbidity Cases, Active IDSR Epidemic Alerts (with pulsating alarm beacon), and ICD-10 Standardized Diagnostic Coding Compliance Rate (%).
+   - 3 interactive tabs: MOH 705A, MOH 705B, and IDSR Early Warning Hub.
+   - Clean printable stylesheet (`@media print`) rendering statutory layout for audit inspection.
+5. **Sidebar Navigation Integration (`application/views/layout/sidebar.php`):**
+   - Added `MOH 705 & IDSR Surveillance` menu item under **Reports** with green `DHA` conformance badge.
+
+---
+
 ## 🌐 Quick Access URLs (Local Environment)
 
 - **Admin Login:** `http://localhost/sfu/site/login`
+- **MOH 705 & IDSR Surveillance Hub:** `http://localhost/sfu/admin/diseasesurveillance` (or `http://localhost/sfu/admin/report/diseasesurveillance`)
 - **National HIE Hub (Admin Console):** `http://localhost/sfu/admin/interoperability`
 - **Interactive API Explorer & Tester:** `http://localhost/sfu/api/v1/docs` (or `http://localhost/sfu/api/docs`)
 - **OpenAPI 3.0 Specification:** `http://localhost/sfu/api/v1/openapi.json`
