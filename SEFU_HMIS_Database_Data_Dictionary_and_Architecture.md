@@ -68,6 +68,7 @@ erDiagram
 | `address` | `TEXT` | YES | | NULL | Physical residential address. |
 | `guardian_name` | `VARCHAR(150)` | YES | | NULL | Next of kin or parent/guardian name. |
 | `identification_number`| `VARCHAR(100)`| YES | MUL | NULL | Kenya National ID / Alien ID / Passport Number. |
+| `upi` | `VARCHAR(100)`| YES | MUL | NULL | Kenya Client Registry Unique Patient Identifier (Afya ID). |
 | `is_active` | `VARCHAR(10)` | NO | | 'yes' | Record status ('yes' active, 'no' disabled). |
 | `created_at` | `TIMESTAMP` | NO | | CURRENT | Record creation timestamp. |
 
@@ -171,6 +172,38 @@ erDiagram
 | `attempts` | `INT(11)` | NO | | 0 | Failed verification attempt counter (Lockout at 5). |
 | `ip_address` | `VARCHAR(50)` | YES | | NULL | Client IP requesting the token. |
 | `created_at` | `TIMESTAMP` | NO | | CURRENT | Token issuance timestamp. |
+
+---
+
+### 3.7 Table: `icd10_codes` (Standardized National Disease Terminology)
+*Stores WHO and Kenya Ministry of Health ICD-10 diagnostic coding definitions, public health indicators, and IDSR notifiable disease flags.*
+
+| Column Name | Data Type | Nullable | Key | Default | Description |
+| :--- | :--- | :---: | :---: | :---: | :--- |
+| `id` | `INT(11)` | NO | PRI | *Auto* | Internal sequence identifier. |
+| `code` | `VARCHAR(20)` | NO | UNI | NULL | Standardized ICD-10 code (e.g. `B50.9`, `A00.9`, `I10`). |
+| `description` | `VARCHAR(255)`| NO | | NULL | Full clinical diagnostic description. |
+| `category` | `VARCHAR(100)`| NO | MUL | NULL | Clinical category (Infectious, Respiratory, Circulatory, Trauma). |
+| `moh_indicator`| `VARCHAR(50)` | YES | | NULL | Kenya MOH statutory indicator mapping (`MOH 705A`, `MOH 705B`, `MOH 706`). |
+| `is_notifiable`| `TINYINT(1)` | NO | | 0 | Statutory IDSR notifiable flag (`1=Immediate Epidemic Alert`, `0=Routine`). |
+| `is_active` | `TINYINT(1)` | NO | | 1 | Active status (`1=active`, `0=retired`). |
+| `created_at` | `TIMESTAMP` | NO | | CURRENT | Timestamp of addition. |
+
+---
+
+### 3.8 Table: `api_clients` (External HIE Gateway Token Registry)
+*Manages external health integration credentials, cryptographic API tokens, endpoint permissions, and traffic throttle ceilings.*
+
+| Column Name | Data Type | Nullable | Key | Default | Description |
+| :--- | :--- | :---: | :---: | :---: | :--- |
+| `id` | `INT(11)` | NO | PRI | *Auto* | Client registry index. |
+| `client_name` | `VARCHAR(150)`| NO | | NULL | Integration entity name (e.g., `Kenya National HIE Hub`, `SHA Claims`). |
+| `api_key` | `VARCHAR(64)` | NO | UNI | NULL | Cryptographic 64-char API key (SHA-256 entropy). |
+| `contact_email`| `VARCHAR(150)`| YES | | NULL | Technical contact or administrator email. |
+| `allowed_endpoints`| `TEXT` | YES | | NULL | Permitted API endpoint routes (JSON array or wildcard). |
+| `rate_limit_per_minute`| `INT(11)`| NO | | 60 | Rate limit throttling bucket per remote client. |
+| `is_active` | `TINYINT(1)` | NO | | 1 | Authorization status (`1=active`, `0=revoked`). |
+| `created_at` | `TIMESTAMP` | NO | | CURRENT | Client issuance timestamp. |
 
 ---
 

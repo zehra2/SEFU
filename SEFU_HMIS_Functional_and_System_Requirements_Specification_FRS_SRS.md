@@ -131,9 +131,16 @@ flowchart TD
 
 ### 5.8 Information Security, MFA & Auditing
 - **FR-20 (Password Security):** Enforce 8+ character password complexity with Bcrypt hashing (`$2y$10$...`).
-- **FR-21 (Multi-Factor Authentication):** Enforce 6-digit Email OTP with 10-minute validity and 5-attempt brute-force lockout for staff.
+- **FR-21 (Multi-Factor Authentication):** Enforce 6-digit Email OTP with 10-minute validity and 5-attempt brute-force lockout for staff, with individual user toggle controls (`staff.mfa_enabled`).
 - **FR-22 (Audit Logging):** Immutable recording of every Insert, Update, and Delete action in `logs` table with staff ID and role attribution.
 - **FR-23 (Session Management):** Automatic 2-hour idle timeout, 5-minute session ID rotation, and `HttpOnly`/`SameSite` cookie flags.
+
+### 5.9 Interoperability, National Health Information Exchange (HIE) & Disease Surveillance
+- **FR-24 (Kenya National HIE REST API Gateway):** Authenticated JSON REST API gateway (`api/v1/`) with Bearer token and `X-API-KEY` security, CORS controls, IP tracking, rate limiting, and audit logging. Includes interactive API documentation (`api/v1/docs`) and OpenAPI 3.0 specification (`api/v1/openapi.json`).
+- **FR-25 (Kenya Client Registry & Terminology):** Native support for National ID and Unique Patient Identifier (`patients.upi` / Afya ID) with bidirectional lookup, duplicate prevention, and standardized WHO/Kenya ICD-10 diagnostic coding registry (`icd10_codes` table with 51 conditions).
+- **FR-26 (Kenya MOH 705A & 705B Outpatient Morbidity Summaries):** Automated stratification of all OPD, IPD, and specialty encounters into Form MOH 705A (<5 years) and Form MOH 705B ($\ge$ 5 years) summaries, computing gender distribution, case totals, and morbidity percentages.
+- **FR-27 (Kenya IDSR Immediate Epidemic Early Warning Engine):** Automated surveillance alert triggers for notifiable epidemic conditions (Cholera, Measles, Anthrax, Meningitis, Malaria, Typhoid) with statutory directives for notification to Sub-County Disease Surveillance Officers (SC-DSO).
+- **FR-28 (Master Facility & Practitioner Registry Linkage):** Master Health Facility List code (`sch_settings.kmhfl_code`) and practitioner medical board registration (`staff.council_registration_no`) permanently bound to clinical encounter records and interoperability payloads.
 
 ---
 

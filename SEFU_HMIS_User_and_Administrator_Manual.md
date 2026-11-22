@@ -56,6 +56,30 @@ This manual provides operational guidance for clinical healthcare workers, depar
    - **Search Filter:** Type any role (e.g. `Doctor`, `Human Resource`, `Patient`) into the search bar to filter activities instantly.
 3. To view staff and patient authentication logs, navigate to **Reports > Log > User Log** (`/admin/userlog`).
 
+### 1.6 National HIE Hub & External API Administration (`/admin/interoperability`)
+1. In the main sidebar menu, click **National HIE Hub** (indicated with the green **DHA** badge).
+2. **Key Metrics:** Monitor KMHFL facility ID, registered API clients, seeded Client Registry patient profiles, and external integration transactions.
+3. **API Token Management:**
+   - View active external clients (e.g., Kenya HIE Client Registry, SHA Claims Gateway, Lab Systems).
+   - Use the **Show/Hide** toggle to view API keys or click **Copy** to clipboard.
+   - Generate new API tokens with specific endpoint scopes and rate limits.
+   - Instantly revoke or activate tokens as needed.
+4. **External Integration Audit Trail:** Click the **External Audit Trail** tab to inspect live REST API calls, calling systems, IP addresses, and HTTP response statuses.
+5. **Interactive API Explorer & Fast-Tester:** Click the **API Explorer** tab or navigate to `/api/v1/docs` to test endpoints directly in the browser with pre-loaded authentication keys.
+
+### 1.7 Individual Staff Two-Factor Authentication (2FA) Toggle (`/admin/staff/profile/{id}`)
+1. Staff members can navigate to their personal profile by clicking their user avatar in the top right and selecting **My Profile**.
+2. On the profile overview card, locate the **Two-Factor Authentication (2FA / Email OTP)** switch.
+3. Toggle the switch to enable or disable email OTP for their account:
+   - When **Enabled**: The user will be prompted for a 6-digit email OTP code upon entering their password.
+   - When **Disabled**: The user can log in with their password directly (if permitted by hospital policy).
+4. Any toggle event is immediately recorded in the hospital security audit trail (`STAFF_MFA_ENABLED` or `STAFF_MFA_DISABLED`).
+
+### 1.8 Decommissioned Non-Hospital Modules
+To maintain strict compliance with Kenya Digital Health Agency (DHA) Level 4/5 hospital standards, extraneous legacy features have been decommissioned:
+- **Referral Module:** Commercial agent commission tracking has been fully removed from navigation, database permissions, and reports.
+- **Mobile App White-Label Settings:** Unused third-party mobile app branding sections in system settings have been removed.
+
 ---
 
 ## 🩺 PART II: CLINICAL & DEPARTMENTAL USER MANUAL
@@ -121,6 +145,21 @@ This manual provides operational guidance for clinical healthcare workers, depar
 2. Apply eligible discounts or map approved **TPA / SHA Health Insurance** policies.
 3. Click **Add Payment**, select payment mode (Cash, M-Pesa, Card, Bank Transfer), and enter transaction reference.
 4. Issue official hospital receipt with Kenya Shillings (`KES`) currency formatting.
+
+### 2.7 Kenya MOH 705 & IDSR Disease Surveillance Hub (`/admin/diseasesurveillance`)
+1. Navigate to **Reports > MOH 705 & IDSR Surveillance** (or direct URL `/admin/diseasesurveillance`).
+2. **Surveillance Period Filter:** Select reporting period (This Month, Last Month, This Year, All Time, or Custom Period) and click **Apply Filter**.
+3. **MOH 705A: Under 5 Years Outpatient Summary:**
+   - Click the **MOH 705A** tab to view all child consultations (< 5 years) aggregated by ICD-10 diagnosis code, male/female distribution, and percentage morbidity.
+4. **MOH 705B: Over 5 Years Outpatient Summary:**
+   - Click the **MOH 705B** tab to view all adult and adolescent consultations ($\ge$ 5 years) aggregated by ICD-10 diagnosis code, male/female distribution, and percentage morbidity.
+5. **IDSR Epidemic Outbreak Alerts:**
+   - Click the **IDSR Epidemic Alerts** tab to inspect any flagged notifiable disease cases.
+   - **Critical Alerts (Cholera, Measles, Anthrax, Meningitis):** Red banner with immediate protocol instructions to notify the Sub-County Disease Surveillance Officer (SC-DSO) within 24 hours.
+   - Click **View Cases** to review affected patient names, contacts, addresses, and clinical symptoms.
+6. **Statutory Export & Printing:**
+   - Click **Export Statutory CSV** dropdown to download formatted CSV files for MOH 705A, MOH 705B, or IDSR alerts.
+   - Click **Print Statutory Dossier** to generate a clean, official printed report for health records officers and regulatory auditors.
 
 ---
 
